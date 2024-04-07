@@ -26,9 +26,7 @@ crime_dc <- bind_rows(
         crime_2022,
         crime_2023
     ) |>
-    # remove unneccary ID columns - objectid is the true ID
-    select(-OCTO_RECORD_ID, -CCN) |>
-    rename("id" = OBJECTID)
+    distinct()
 
 # Clean column names
 crime_dc <- crime_dc |>
