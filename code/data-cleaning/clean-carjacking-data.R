@@ -40,7 +40,8 @@ carjack_long <- tibble(
     date = character()
 )
 
-# Iterate through data for each city
+# Iterate through data for each city, get counts, and 
+# concatenate to long format
 for (city in city_names) {
     city_data <- carjack |>
         select(1:3)
@@ -68,7 +69,11 @@ carjack <- carjack |>
 # Convert percent column to numeric
 carjack <- carjack |>
     mutate(percent_kia_hyundai = str_remove(percent_kia_hyundai, "%")) |>
-    mutate(percent_kia_hyundai = as.numeric(percent_kia_hyundai))
+    mutate(percent_kia_hyundai = as.numeric(percent_kia_hyundai)) |>
+    suppressWarnings()
+# Note that you'll get a warning here saying NAs were introduced by
+# coercion -- this is intentional. All NAs "introduced" are just strings
+# that were already NA.
 
 # Save cleaned data as parquet (to maintain data types) and csv
 carjack |>
