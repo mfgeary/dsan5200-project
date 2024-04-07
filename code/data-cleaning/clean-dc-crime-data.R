@@ -1,10 +1,10 @@
 #' Clean Open Data DC Crime Data
-#' 
+#'
 #' This script is designed to clean Open Data DC crime
 #' data for future use in data visualization. This cleans
 #' crime data from 2019-2023 and generates one combine dataset.
 #' New data is stored in `data/clean`.
-#' 
+#'
 #' @author Marion Bauman
 
 # Load necessary libraries

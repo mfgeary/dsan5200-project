@@ -1,9 +1,9 @@
 #' Clean VICE Carjacking Data
-#' 
+#'
 #' This script cleans the VICE carjacking data centered
 #' on counts of Hyundai and Kia carjackings across the US.
 #' The data is cleaned for future usage in data visualizations.
-#' 
+#'
 #' @author Marion Bauman
 
 # Load necessary libraries

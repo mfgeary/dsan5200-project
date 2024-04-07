@@ -8,6 +8,8 @@ This is a repo for our final data visualization project for DSAN 5200.
 
 * `Crime_Incidents_in_*` is comprehensive crime data in DC sourced from Open Data DC, found [here](https://opendata.dc.gov/datasets). Our data includes crime incidents from 2019-2023.
 * `Motherboard VICE News Kia Hyundai Theft Data - Data` contains the number of car thefts in major cities across the US and the proportion of those that were Hyundais or Kias. The data was collated by Aaron Gordon at VICE News and is found [here](https://docs.google.com/spreadsheets/u/1/d/1-6614t_Ata5k7oESrm-HAdF1uOe8aPGRaQECl44GYeE/edit?pli=1#gid=0).
+* `Arrests by Year *` is adult arrest data in DC, sourced from the Metro Police Department, found [here](https://mpdc.dc.gov/node/1379551).
+* `Biannual_Report_*` is data on juvenile arrests in DC, sourced from the Metro Police Department, found [here](https://mpdc.dc.gov/node/208852).
 
 ## Repo Organization
 
