@@ -77,5 +77,5 @@ carjack <- carjack |>
 
 # Save cleaned data as parquet (to maintain data types) and csv
 carjack |>
-    write_parquet("data/clean/kia-hyundia-thefts.parquet") |>
-    write_csv("data/clean/kia-hyundia-thefts.csv")
+    write_parquet("data/clean/kia_hyundia_thefts.parquet") |>
+    write_csv("data/clean/kia_hyundia_thefts.csv")

@@ -11,6 +11,16 @@ This is a repo for our final data visualization project for DSAN 5200.
 * `Arrests by Year *` is adult arrest data in DC, sourced from the Metro Police Department, found [here](https://mpdc.dc.gov/node/1379551).
 * `Biannual_Report_*` is data on juvenile arrests in DC, sourced from the Metro Police Department, found [here](https://mpdc.dc.gov/node/208852).
 
+## Clean Data
+
+All cleaned data is stored as both `.csv` for easy portability and `.parquet` for efficient storage, column type preservation, and fast reading. The cleaned data is stored in the `data/clean/` folder.
+
+* `adult_arrests_dc` is the cleaned adult arrest data. This is the combined version of `Arrests by Year *` files from Metro PD.
+* `crime_dc` is the cleaned crime data from Open Data DC. This is the combined version of `Crime_Incidents_in_*` files, filtered to only include motor vehicle thefts.
+    * This can be joined with `adult_arrests_dc` using `ccn` to get detailed data on the arrests associated with each crime.
+* `juvenile_arrests_dc` is the cleaned juvenile arrest data. This is the combined version of `Biannual_Report_*`, sourced from Metro PD. This data is much less detailed than the adult arrest data due to child privacy laws.
+* `kia_hyundai_thefts` is the cleaned data on car thefts in major US cities, sourced from VICE News at `Motherboard VICE News Kia Hyundai Theft Data - Data`.
+
 ## Repo Organization
 
 The repo is organized as follows:
