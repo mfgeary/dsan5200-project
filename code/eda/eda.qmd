@@ -1,0 +1,111 @@
+---
+title: Exploratory Data Analysis
+subtitle: DSAN 5200
+author: Marion Bauman
+date: last-modified
+date-format: long
+format:
+    html:
+        embed-resources: true
+---
+
+# Exploratory Data Analysis
+
+This document introduces some EDA for our project. The goal of this analysis is to understand the story underlying our dataset so that we can generate an effective story line for our final project.
+
+## Story Context
+
+Based on a viral TikTok track, an easy to trick to break into a Kia or Hyundai car has been circulating using just a USB cord and a screwdriver. Often perpetrated by teenage boys, the so called "Kia Boys" have been stealing cars across the country, largely for the purpose of joyriding.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/CqR4zvr0ecY?si=k5w61vrNYHMzfr-6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## Load the Data
+```{r}
+library(tidyverse)
+library(arrow)
+
+adult_arrests <- arrow::read_parquet("data/clean/adult_arrests_dc.parquet")
+crime_dc <- arrow::read_parquet("data/clean/crime_dc.parquet")
+juvenile_arrests <- arrow::read_parquet("data/clean/juvenile_arrests_dc.parquet")
+kia_hyundia_thefts <- arrow::read_parquet("data/clean/kia_hyundia_thefts.parquet")
+timeline <- read_csv("data/raw/multiTimeline.csv")
+```
+
+## Data Overview
+
+### Trend Timeline
+
+```{r}
+timeline |>
+    filter(Week >= "2021-01-01") |>
+    ggplot(aes(x = Week, y = `kia boys`)) +
+    geom_line() +
+    scale_x_date(date_labels = "%b %Y", date_breaks = "6 month") +
+    labs(
+        x = "",
+        y = "Search Popularity",
+        title = "Search Popularity of 'Kia Boys' on Google",
+    )
+```
+
+### DC Car Thefts
+
+```{r}
+crime_dc |>
+    mutate(report_date_no_time = as.Date(report_date)) |>
+    count(report_date_no_time) |>
+    # Add in the missing dates with 0 car thefts
+    complete(report_date_no_time = seq.Date(min(report_date_no_time), max(report_date_no_time), by = "day")) |>
+    # fill in the missing values with 0
+    mutate(n = if_else(is.na(n), 0, n)) |>
+    ggplot(aes(x = report_date_no_time, y = n)) +
+    geom_line() +
+    scale_x_date(date_labels = "%b %Y", date_breaks = "6 month") +
+    labs(
+        x = "",
+        y = "Number of Car Thefts in DC",
+        title = "Car Thefts in DC"
+    )
+```
+
+Let's overlay these two trend lines...
+
+```{r}
+joined <- crime_dc |>
+    mutate(report_date_no_time = as.Date(report_date)) |>
+    count(report_date_no_time) |>
+    # Add in the missing dates with 0 car thefts
+    complete(report_date_no_time = seq.Date(min(report_date_no_time), max(report_date_no_time), by = "day")) |>
+    # fill in the missing values with 0
+    mutate(n = if_else(is.na(n), 0, n)) |>
+    # Summarise by week
+    mutate(Week = floor_date(report_date_no_time, "week")) |>
+    group_by(Week) |>
+    summarise(n = sum(n)) |>
+    left_join(timeline, by = c("Week" = "Week")) |>
+    mutate(`kia boys` = if_else(is.na(`kia boys`), 0, `kia boys`)) |>
+    # scale the trend line to the same scale as the car theft
+    mutate(`kia boys` = `kia boys` * max(n) / max(`kia boys`)) |>
+    pivot_longer(
+        cols = c(n, `kia boys`),
+        names_to = "Type",
+        values_to = "n"
+    )
+
+joined |>
+    filter(Week < as.Date("2023-12-31")) |>
+    ggplot(aes(x = Week, y = n, color = Type)) +
+    geom_line() +
+    scale_x_date(date_labels = "%b %Y", date_breaks = "9 month") +
+    scale_color_discrete(labels = c("Search Trend", "Car Thefts")) +
+    labs(
+        x = "",
+        y = "Number of Car Thefts in DC",
+        title = "Car Thefts in DC"
+    ) +
+    theme_minimal()
+```
+
+There definitely seems to be a connection here!
+
+
