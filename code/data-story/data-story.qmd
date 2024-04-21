@@ -1,0 +1,155 @@
+---
+title: "Final Data Story"
+author: 
+    - Marion Bauman
+    - Matt Carswell
+    - Thomas Sigall
+    - Patricia Schenfeld
+date: last-modified
+date-format: long
+output: 
+  html_document:
+    toc: true
+    code-tools: true
+theme: lux
+echo: false
+---
+
+```{r}
+# set conda environment
+reticulate::use_condaenv("dsan5200", required = TRUE)
+```
+
+# Introduction
+
+Beginning intro text for the final data story
+
+```{r}
+color_palette <- c("#A8C4FF", "#A56A6E", "#89B587", "#6A7FAB", "#FFDAA1", "#EFA4D6", "#7C5FBC", "#F2B37A")
+```
+
+::::: {.columns .column-body-outset}
+
+:::: {.column width="35%"}
+
+Intro text for car theft story
+
+::::
+
+:::: {.column width="10%"}
+::::
+
+:::: {.column width="55%" style="padding:20px; position:sticky;top:100px"}
+
+::::
+
+:::::
+```{python}
+import pandas as pd
+import altair as alt
+
+# Load the data
+kia_boys = pd.read_csv("../../data/clean/google-trends.csv")
+
+# Pivot longer the data
+kia_boys = kia_boys.melt(id_vars="week", var_name="trend", value_name="searches")
+kia_boys["trend"] = kia_boys["trend"].apply(lambda x: x.title())
+
+# Map colors to the trends
+colors = {
+    "Kia Boys": "#A8C4FF",
+    "Hyundai Theft": "#A56A6E",
+    "Kia Theft": "#89B587"
+}
+
+kia_boys["color"] = kia_boys["trend"].map(colors)
+
+cols = kia_boys["trend"].unique()
+
+line = alt.Chart(
+    kia_boys,
+    title = alt.Title(
+        "Google Searches over Time for Kia and Hyundai Theft Terms",
+        subtitle = ["Searches for Kia thefts, Hyundai thefts, and Kia Boys in the US, 2020-2024"]
+    )
+    ).mark_line().encode(
+    x=alt.X("week:T").title("Week"),
+    y=alt.Y("searches:Q").title("Relative Search Popularity"),
+    color=alt.Color("trend:N").scale(domain=list(colors.keys()), range=list(colors.values())).title("Search Term"),
+)
+
+nearest = alt.selection_point(
+    nearest=True, 
+    on="pointerover",
+    fields=["week"],
+    empty=False
+)
+
+points = line.mark_point().encode(
+    opacity=alt.condition(nearest, alt.value(1), alt.value(0))
+)
+
+rules = alt.Chart(kia_boys).mark_rule(color="gray").encode(
+    x="week:T",
+).transform_filter(
+    nearest
+)
+
+rules = alt.Chart(kia_boys).transform_pivot(
+    "trend",
+    value="searches",
+    groupby=["week"]
+).mark_rule(color="gray").encode(
+    x="week:T",
+    opacity=alt.condition(nearest, alt.value(0.3), alt.value(0)),
+    tooltip=[alt.Tooltip(c, type="quantitative") for c in cols],
+).add_params(nearest)
+
+alt.layer(
+    line, points, rules
+).properties(
+    width=600, height=300
+).configure_axis(
+    grid=False,
+    labelFontSize=12,
+    titleFontSize=15
+).configure_view(
+    strokeWidth=0
+).configure_title(
+    fontSize=22
+).configure_legend(
+    titleFontSize=15,
+    labelFontSize=12,
+).configure_line(
+    strokeWidth=1.5,
+).configure_point(
+    size=50
+)
+```
+
+
+# Kia/Hyundai Car Thefts
+
+* Graph of kia boys searches over time
+
+# Car Thefts in the US
+
+* Car thefts map over time across US
+
+# Car Thefts in DC
+* Zoom in to DC area
+
+* Add in map of kia/hyundai thefts over time - link these two maps to each other with a time slider
+
+* Show different view of this data to emphasize increase in both car thefts and kia/hyundai thefts
+
+# Arrests in DC
+* Visualize top arrests in DC for adults and juveniles
+
+* Visualize car theft arrests in DC over time
+
+# Car Thefts and Arrests by Make in DC
+
+* Bring arrests, car thefts, and car thefts by make together into one visualization
+
+# Conclusion

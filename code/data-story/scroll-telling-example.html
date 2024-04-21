@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="James Goldie">
+
+<title>Scrollytelling Example</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="scroll-telling-example_files/libs/clipboard/clipboard.min.js"></script>
+<script src="scroll-telling-example_files/libs/quarto-html/quarto.js"></script>
+<script src="scroll-telling-example_files/libs/quarto-html/popper.min.js"></script>
+<script src="scroll-telling-example_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="scroll-telling-example_files/libs/quarto-html/anchor.min.js"></script>
+<link href="scroll-telling-example_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="scroll-telling-example_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="scroll-telling-example_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="scroll-telling-example_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="scroll-telling-example_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script type="module" src="scroll-telling-example_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="scroll-telling-example_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#demo-a-sticky-but-unchanging-right-column" id="toc-demo-a-sticky-but-unchanging-right-column" class="nav-link active" data-scroll-target="#demo-a-sticky-but-unchanging-right-column">Demo: A sticky but unchanging right column</a></li>
+  <li><a href="#sticky-overlays" id="toc-sticky-overlays" class="nav-link" data-scroll-target="#sticky-overlays">Sticky overlays</a>
+  <ul class="collapse">
+  <li><a href="#demo-sticky-overlay" id="toc-demo-sticky-overlay" class="nav-link" data-scroll-target="#demo-sticky-overlay">Demo: sticky overlay</a></li>
+  </ul></li>
+  <li><a href="#using-scrollama.js" id="toc-using-scrollama.js" class="nav-link" data-scroll-target="#using-scrollama.js">Using <code>scrollama.js</code></a></li>
+  <li><a href="#demo-a-flashy-series-of-boxes" id="toc-demo-a-flashy-series-of-boxes" class="nav-link" data-scroll-target="#demo-a-flashy-series-of-boxes">Demo: A flashy series of boxes</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Scrollytelling Example</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>James Goldie </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><em>Please note: this is not an original work by the students of DSAN 5200. All rights to the author. We are using this as a template for our own work.</em></p>
+<p>The basics of getting elements to stick are just done with one bit of CSS: using <code>position: sticky</code> and then using <code>top</code>/<code>left</code>/<code>right</code>/<code>bottom</code> to define the point (for its parent block) at which the content “sticks”.</p>
+<p>Let’s see how that works with some standard Quarto <code>.columns</code>. (I’ve made also made the columns a bit wider with <code>.column-body-outset</code>, ’cause it looks classy.)</p>
+<section id="demo-a-sticky-but-unchanging-right-column" class="level1 page-columns page-full">
+<h1>Demo: A sticky but unchanging right column</h1>
+<div class="columns column-body-outset">
+<div class="column" style="width:35%;">
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut accumsan rhoncus turpis, id condimentum augue dignissim vel. Suspendisse varius ex nec ligula dictum, vel vestibulum felis bibendum. Cras id mauris posuere, tempus quam at, vehicula eros. Mauris lobortis ante at dapibus blandit. Praesent hendrerit purus quis urna auctor congue. Etiam ut purus mattis, fringilla magna ac, rhoncus enim. Maecenas luctus turpis nisl, sit amet efficitur mauris viverra vel. In dignissim vehicula nunc, vel scelerisque ante. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla ac pulvinar justo. Sed quis felis odio. Aliquam erat volutpat. Duis ornare ligula tincidunt, volutpat erat in, tristique enim. Nullam id neque sed odio consectetur imperdiet. Cras non malesuada enim, eget hendrerit nunc.</p>
+<p>Suspendisse at diam a purus dictum bibendum. Sed eu volutpat sem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque at porttitor leo. Mauris laoreet nibh arcu, hendrerit posuere quam auctor eget. Quisque vulputate felis et bibendum dapibus. Ut varius in risus nec finibus. Sed vitae nisl in nisl gravida consectetur. Maecenas ac libero non arcu ultricies porta non sit amet lorem.</p>
+<p>Cras ac euismod quam. Proin tempor hendrerit ullamcorper. Aliquam eu elementum neque. Nunc purus dui, fringilla quis pretium vitae, accumsan eget massa. Pellentesque dignissim justo nec velit ullamcorper accumsan. Proin ultrices nisi ac convallis varius. Morbi at leo nisl. Nam condimentum quis mi sed ultricies. Sed vel diam dictum, scelerisque enim sit amet, feugiat nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean at tortor vel ipsum suscipit porta.</p>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="padding:20px; position:sticky;top:100px;background-color:goldenrod">
+<p>This whole column has <code>position:sticky;</code> and <code>top:100px</code> on it!</p>
+<div style="background-color: #333; color: white; height: 200px; text-align: center; padding: 20px;">
+<p>(You could have a figure here… or some bullet points… anything that you think is relevant to an extended section of your report, really!)</p>
+</div>
+</div>
+</div>
+</section>
+<section id="sticky-overlays" class="level1 page-columns page-full">
+<h1>Sticky overlays</h1>
+<p>The other common style is to have some full-width content stick but only cover part of the page.</p>
+<p>For this, we’ll need a parent to be the start/end of the sticky zone (equivalent to our <code>.columns</code> before). In this case, because I’ve created a heading in the next section, Quarto automatically puts it and the content below it in a <code>&lt;section&gt;</code>, so there’s no need to add another wrapper.</p>
+<p>We’ll also need a container for our hero image that has:</p>
+<ul>
+<li><code>position:sticky</code></li>
+<li><code>top: 0</code> will make it stick once the top of the section hits the top of the screen (so you won’t see content sneaking past up the top)</li>
+<li><code>background-image: url(...)</code> loads the image into it, and</li>
+<li><code>background-size: cover</code> appropriately sizes it for all screens</li>
+<li><code>height: 60vh</code> sizes it to 60% of the screen height, leaving 40% for the text underneath.
+<ul>
+<li>(You could set it to <code>100vh</code> if you just wanted the content to be the whole jam, but since our sticky content isn’t <em>doing</em> anything yet, I think that’s a bad idea. You typically want people to see <em>something</em> happening when they scroll!)</li>
+</ul></li>
+<li>I’ve also given it Quarto’s <code>.column-screen</code> class to make it stretch across the screen.</li>
+</ul>
+<p>Let’s see how it looks!</p>
+<section id="demo-sticky-overlay" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="demo-sticky-overlay">Demo: sticky overlay</h2>
+<div class="column-screen" style="background-image:url(https://unsplash.com/photos/KPaSCpklCZw/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8NHx8bGlnaHRob3VzZXxlbnwwfHx8fDE2NTM0OTMzOTE&amp;force=true); background-size: cover; height: 60vh; position: sticky; top: 0; ">
+
+</div>
+<p><em>(This lighthouse photo is by <a href="https://unsplash.com/photos/KPaSCpklCZw">Everaldo Coelho</a> on Unsplash!)</em></p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut accumsan rhoncus turpis, id condimentum augue dignissim vel. Suspendisse varius ex nec ligula dictum, vel vestibulum felis bibendum. Cras id mauris posuere, tempus quam at, vehicula eros. Mauris lobortis ante at dapibus blandit. Praesent hendrerit purus quis urna auctor congue. Etiam ut purus mattis, fringilla magna ac, rhoncus enim. Maecenas luctus turpis nisl, sit amet efficitur mauris viverra vel. In dignissim vehicula nunc, vel scelerisque ante. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla ac pulvinar justo. Sed quis felis odio. Aliquam erat volutpat. Duis ornare ligula tincidunt, volutpat erat in, tristique enim. Nullam id neque sed odio consectetur imperdiet. Cras non malesuada enim, eget hendrerit nunc.</p>
+<p>Suspendisse at diam a purus dictum bibendum. Sed eu volutpat sem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque at porttitor leo. Mauris laoreet nibh arcu, hendrerit posuere quam auctor eget. Quisque vulputate felis et bibendum dapibus. Ut varius in risus nec finibus. Sed vitae nisl in nisl gravida consectetur. Maecenas ac libero non arcu ultricies porta non sit amet lorem.</p>
+<p>Cras ac euismod quam. Proin tempor hendrerit ullamcorper. Aliquam eu elementum neque. Nunc purus dui, fringilla quis pretium vitae, accumsan eget massa. Pellentesque dignissim justo nec velit ullamcorper accumsan. Proin ultrices nisi ac convallis varius. Morbi at leo nisl. Nam condimentum quis mi sed ultricies. Sed vel diam dictum, scelerisque enim sit amet, feugiat nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean at tortor vel ipsum suscipit porta.</p>
+</section>
+</section>
+<section id="using-scrollama.js" class="level1">
+<h1>Using <code>scrollama.js</code></h1>
+<p>The idea with Scrollama is that it <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">keeps an eye on our scrolling</a> tells us when targeted objects are visible.</p>
+<p>This can achieve a variety of effects—not just the sticky effects we’ve used above! As well as using sticky patterns, it can draw attention to elements as they scroll in.</p>
+<p>This isn’t an entirely JS-free endeavour, unfortunately. Once we’ve imported the library, we still need to:</p>
+<ol type="1">
+<li>Use a <code>setup</code> function to tell scrollama which elements to target (let’s say, anything with the <code>.step</code> class)</li>
+<li>Give it event handlers: functions that will run when something enters or exits.</li>
+</ol>
+<ul>
+<li>We need to define two event handlers; one for elements entering the view (<code>onStepEnter</code>) and another for them leaving the view (<code>onStepExit</code>).</li>
+<li>To start, let’s keep it simple(r) and have them just apply or remove a CSS class, <code>.is-active</code>. (We’ll add some CSS style to make them purple when they have this class!)</li>
+</ul>
+</section>
+<section id="demo-a-flashy-series-of-boxes" class="level1">
+<h1>Demo: A flashy series of boxes</h1>
+<div class="cell hidden">
+<div class="sourceCode cell-code" id="cb1" data-startfrom="92" data-source-offset="-41"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 91;"><span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>scrollama <span class="op">=</span> <span class="pp">require</span>(<span class="st">"scrollama@3.1.1"</span>)</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>scroller <span class="op">=</span> <span class="fu">scrollama</span>()<span class="op">;</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="co">// initialise the library and pass event handlers to </span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>scroller</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">setup</span>({</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>    <span class="dt">step</span><span class="op">:</span> <span class="st">".step"</span><span class="op">,</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">onStepEnter</span>((response) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>    <span class="co">// the box is passed to this function so we can change it!</span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Enter triggered"</span>)</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(response)</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>    <span class="co">// { element, index, direction }</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>    response<span class="op">.</span><span class="at">element</span><span class="op">.</span><span class="at">classList</span><span class="op">.</span><span class="fu">add</span>(<span class="st">"is-active"</span>)<span class="op">;</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">onStepExit</span>((response) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Exit triggered"</span>)</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(response)</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>    <span class="co">// { element, index, direction }</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>    response<span class="op">.</span><span class="at">element</span><span class="op">.</span><span class="at">classList</span><span class="op">.</span><span class="fu">remove</span>(<span class="st">"is-active"</span>)<span class="op">;</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+<style>
+#columnscroller .step {
+  background-color: #ccc;
+  color: black;
+  height: 200px;
+  text-align: center;
+  padding: 20px;
+  transition: background-color 0.5s, color 0.5s, transform 0.5s;
+}
+
+/* here's how each box will look as we scroll past it */
+#columnscroller .step.is-active {
+  background-color: #5500cc;
+  color: white;
+  transform: rotate(1.25deg) scale(1.05);
+}
+</style>
+<div id="columnscroller">
+<div class="step" style="margin-bottom: 100px;">
+<p>Here’s our first box!</p>
+</div>
+<div class="step" style="margin-bottom: 100px;">
+<p>And our second box!</p>
+</div>
+<div class="step">
+<p>And a third, I guess.</p>
+</div>
+</div>
+<!-- -->
+
+</section>
+
+</main>
+<!-- /main column -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuLy8gaW1wb3J0IGFuZCBpbnN0YW50aWF0ZSB0aGUgc2Nyb2xsYW1hXG5zY3JvbGxhbWEgPSByZXF1aXJlKFwic2Nyb2xsYW1hQDMuMS4xXCIpXG5zY3JvbGxlciA9IHNjcm9sbGFtYSgpO1xuXG4vLyBpbml0aWFsaXNlIHRoZSBsaWJyYXJ5IGFuZCBwYXNzIGV2ZW50IGhhbmRsZXJzIHRvIFxuc2Nyb2xsZXJcbiAgLnNldHVwKHtcbiAgICBzdGVwOiBcIi5zdGVwXCIsXG4gIH0pXG4gIC5vblN0ZXBFbnRlcigocmVzcG9uc2UpID0+IHtcbiAgICAvLyB0aGUgYm94IGlzIHBhc3NlZCB0byB0aGlzIGZ1bmN0aW9uIHNvIHdlIGNhbiBjaGFuZ2UgaXQhXG4gICAgY29uc29sZS5sb2coXCJFbnRlciB0cmlnZ2VyZWRcIilcbiAgICBjb25zb2xlLmxvZyhyZXNwb25zZSlcbiAgICAvLyB7IGVsZW1lbnQsIGluZGV4LCBkaXJlY3Rpb24gfVxuICAgIHJlc3BvbnNlLmVsZW1lbnQuY2xhc3NMaXN0LmFkZChcImlzLWFjdGl2ZVwiKTtcblxuICB9KVxuICAub25TdGVwRXhpdCgocmVzcG9uc2UpID0+IHtcbiAgICBjb25zb2xlLmxvZyhcIkV4aXQgdHJpZ2dlcmVkXCIpXG4gICAgY29uc29sZS5sb2cocmVzcG9uc2UpXG4gICAgLy8geyBlbGVtZW50LCBpbmRleCwgZGlyZWN0aW9uIH1cbiAgICByZXNwb25zZS5lbGVtZW50LmNsYXNzTGlzdC5yZW1vdmUoXCJpcy1hY3RpdmVcIik7XG4gIH0pO1xuIn1dfQ==
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../..";
+window._ojs.paths.runtimeToRoot = "../../../../..";
+window._ojs.paths.docToRoot = "../..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Scrollytelling Example"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "James Goldie"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>*Please note: this is not an original work by the students of DSAN 5200. All rights to the author. We are using this as a template for our own work.*</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>The basics of getting elements to stick are just done with one bit of CSS: using <span class="in">`position: sticky`</span> and then using <span class="in">`top`</span>/<span class="in">`left`</span>/<span class="in">`right`</span>/<span class="in">`bottom`</span> to define the point (for its parent block) at which the content "sticks".</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>Let's see how that works with some standard Quarto <span class="in">`.columns`</span>. (I've made also made the columns a bit wider with <span class="in">`.column-body-outset`</span>, 'cause it looks classy.)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu"># Demo: A sticky but unchanging right column</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>::::: {.columns .column-body-outset}</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>:::: {.column width="35%"}</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut accumsan rhoncus turpis, id condimentum augue dignissim vel. Suspendisse varius ex nec ligula dictum, vel vestibulum felis bibendum. Cras id mauris posuere, tempus quam at, vehicula eros. Mauris lobortis ante at dapibus blandit. Praesent hendrerit purus quis urna auctor congue. Etiam ut purus mattis, fringilla magna ac, rhoncus enim. Maecenas luctus turpis nisl, sit amet efficitur mauris viverra vel. In dignissim vehicula nunc, vel scelerisque ante. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla ac pulvinar justo. Sed quis felis odio. Aliquam erat volutpat. Duis ornare ligula tincidunt, volutpat erat in, tristique enim. Nullam id neque sed odio consectetur imperdiet. Cras non malesuada enim, eget hendrerit nunc.</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>Suspendisse at diam a purus dictum bibendum. Sed eu volutpat sem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque at porttitor leo. Mauris laoreet nibh arcu, hendrerit posuere quam auctor eget. Quisque vulputate felis et bibendum dapibus. Ut varius in risus nec finibus. Sed vitae nisl in nisl gravida consectetur. Maecenas ac libero non arcu ultricies porta non sit amet lorem.</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>Cras ac euismod quam. Proin tempor hendrerit ullamcorper. Aliquam eu elementum neque. Nunc purus dui, fringilla quis pretium vitae, accumsan eget massa. Pellentesque dignissim justo nec velit ullamcorper accumsan. Proin ultrices nisi ac convallis varius. Morbi at leo nisl. Nam condimentum quis mi sed ultricies. Sed vel diam dictum, scelerisque enim sit amet, feugiat nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean at tortor vel ipsum suscipit porta.</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>:::: {.column width="10%"}</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>:::: {.column width="55%" style="padding:20px; position:sticky;top:100px;background-color:goldenrod"}</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>This whole column has <span class="in">`position:sticky;`</span> and <span class="in">`top:100px`</span> on it!</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>::: {style="background-color: #333; color: white; height: 200px; text-align: center; padding: 20px;"}</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>(You could have a figure here... or some bullet points... anything that you think is relevant to an extended section of your report, really!)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>:::::</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="fu"># Sticky overlays</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>The other common style is to have some full-width content stick but only cover part of the page.</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>For this, we'll need a parent to be the start/end of the sticky zone (equivalent to our <span class="in">`.columns`</span> before). In this case, because I've created a heading in the next section, Quarto automatically puts it and the content below it in a <span class="in">`&lt;section&gt;`</span>, so there's no need to add another wrapper.</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>We'll also need a container for our hero image that has:</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`position:sticky`</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`top: 0`</span> will make it stick once the top of the section hits the top of the screen (so you won't see content sneaking past up the top)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`background-image: url(...)`</span> loads the image into it, and</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`background-size: cover`</span> appropriately sizes it for all screens</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`height: 60vh`</span> sizes it to 60% of the screen height, leaving 40% for the text underneath.</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>(You could set it to <span class="in">`100vh`</span> if you just wanted the content to be the whole jam, but since our sticky content isn't _doing_ anything yet, I think that's a bad idea. You typically want people to see _something_ happening when they scroll!)</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>I've also given it Quarto's <span class="in">`.column-screen`</span> class to make it stretch across the screen.</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>Let's see how it looks!</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Demo: sticky overlay</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>::: {.column-screen style="background-image:url(https://unsplash.com/photos/KPaSCpklCZw/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8NHx8bGlnaHRob3VzZXxlbnwwfHx8fDE2NTM0OTMzOTE&amp;force=true); background-size: cover; height: 60vh; position: sticky; top: 0; "}</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>_(This lighthouse photo is by [Everaldo Coelho](https://unsplash.com/photos/KPaSCpklCZw) on Unsplash!)_</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut accumsan rhoncus turpis, id condimentum augue dignissim vel. Suspendisse varius ex nec ligula dictum, vel vestibulum felis bibendum. Cras id mauris posuere, tempus quam at, vehicula eros. Mauris lobortis ante at dapibus blandit. Praesent hendrerit purus quis urna auctor congue. Etiam ut purus mattis, fringilla magna ac, rhoncus enim. Maecenas luctus turpis nisl, sit amet efficitur mauris viverra vel. In dignissim vehicula nunc, vel scelerisque ante. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla ac pulvinar justo. Sed quis felis odio. Aliquam erat volutpat. Duis ornare ligula tincidunt, volutpat erat in, tristique enim. Nullam id neque sed odio consectetur imperdiet. Cras non malesuada enim, eget hendrerit nunc.</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>Suspendisse at diam a purus dictum bibendum. Sed eu volutpat sem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque at porttitor leo. Mauris laoreet nibh arcu, hendrerit posuere quam auctor eget. Quisque vulputate felis et bibendum dapibus. Ut varius in risus nec finibus. Sed vitae nisl in nisl gravida consectetur. Maecenas ac libero non arcu ultricies porta non sit amet lorem.</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>Cras ac euismod quam. Proin tempor hendrerit ullamcorper. Aliquam eu elementum neque. Nunc purus dui, fringilla quis pretium vitae, accumsan eget massa. Pellentesque dignissim justo nec velit ullamcorper accumsan. Proin ultrices nisi ac convallis varius. Morbi at leo nisl. Nam condimentum quis mi sed ultricies. Sed vel diam dictum, scelerisque enim sit amet, feugiat nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean at tortor vel ipsum suscipit porta.</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="fu"># Using `scrollama.js`</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>The idea with Scrollama is that it <span class="co">[</span><span class="ot">keeps an eye on our scrolling</span><span class="co">](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)</span> tells us when targeted objects are visible.</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>This can achieve a variety of effects---not just the sticky effects we've used above! As well as using sticky patterns, it can draw attention to elements as they scroll in.</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>This isn't an entirely JS-free endeavour, unfortunately. Once we've imported the library, we still need to:</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Use a <span class="in">`setup`</span> function to tell scrollama which elements to target (let's say, anything with the <span class="in">`.step`</span> class)</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Give it event handlers: functions that will run when something enters or exits.</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>We need to define two event handlers; one for elements entering the view (<span class="in">`onStepEnter`</span>) and another for them leaving the view (<span class="in">`onStepExit`</span>).</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>To start, let's keep it simple(r) and have them just apply or remove a CSS class, <span class="in">`.is-active`</span>. (We'll add some CSS style to make them purple when they have this class!)</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="fu"># Demo: A flashy series of boxes</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a><span class="in">```{ojs}</span></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="in">//| output: false</span></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="in">// import and instantiate the scrollama</span></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a><span class="in">scrollama = require("scrollama@3.1.1")</span></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a><span class="in">scroller = scrollama();</span></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="in">// initialise the library and pass event handlers to </span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a><span class="in">scroller</span></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a><span class="in">  .setup({</span></span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a><span class="in">    step: ".step",</span></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="in">  .onStepEnter((response) =&gt; {</span></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a><span class="in">    // the box is passed to this function so we can change it!</span></span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a><span class="in">    console.log("Enter triggered")</span></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a><span class="in">    console.log(response)</span></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a><span class="in">    // { element, index, direction }</span></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="in">    response.element.classList.add("is-active");</span></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a><span class="in">  .onStepExit((response) =&gt; {</span></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a><span class="in">    console.log("Exit triggered")</span></span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a><span class="in">    console.log(response)</span></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a><span class="in">    // { element, index, direction }</span></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a><span class="in">    response.element.classList.remove("is-active");</span></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="in">  });</span></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;style&gt;</span></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a><span class="in">#columnscroller .step {</span></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a><span class="in">  background-color: #ccc;</span></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a><span class="in">  color: black;</span></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a><span class="in">  height: 200px;</span></span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a><span class="in">  text-align: center;</span></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a><span class="in">  padding: 20px;</span></span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a><span class="in">  transition: background-color 0.5s, color 0.5s, transform 0.5s;</span></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a><span class="in">/* here's how each box will look as we scroll past it */</span></span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a><span class="in">#columnscroller .step.is-active {</span></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a><span class="in">  background-color: #5500cc;</span></span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a><span class="in">  color: white;</span></span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a><span class="in">  transform: rotate(1.25deg) scale(1.05);</span></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/style&gt;</span></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>:::: {#columnscroller}</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>::: {.step style="margin-bottom: 100px;"}</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>Here's our first box!</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>::: {.step style="margin-bottom: 100px;"}</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>And our second box!</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>::: {.step}</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>And a third, I guess.</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>::::</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
