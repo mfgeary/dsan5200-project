@@ -9,6 +9,7 @@ format:
 
 *Please note: this is not an original work by the students of DSAN 5200. All rights to the author. We are using this as a template for our own work.*
 
+
 The basics of getting elements to stick are just done with one bit of CSS: using `position: sticky` and then using `top`/`left`/`right`/`bottom` to define the point (for its parent block) at which the content "sticks".
 
 Let's see how that works with some standard Quarto `.columns`. (I've made also made the columns a bit wider with `.column-body-outset`, 'cause it looks classy.)
