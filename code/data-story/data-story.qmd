@@ -13,6 +13,7 @@ output:
     code-tools: true
 theme: lux
 echo: false
+bibliography: ../../references.bib
 ---
 
 ```{r}
@@ -20,9 +21,13 @@ echo: false
 reticulate::use_condaenv("dsan5200", required = TRUE)
 ```
 
+::::: {.columns .column-body-outset}
+
 # Introduction
 
-Beginning intro text for the final data story
+Starting in 2022, a breakout social media trend in Milwaukee, Wisconsin started the rise of a troubling trend: teenagers stealing cars for fun. The trend, started by the alleged "Kia Boys," spread on the social media platform TikTok, where teenage boys posted videos of themselves stealing cars to take them on joyrides. Often, these videos included step-by-step instructions on how to steal a car, and many of the cars stolen were Kia and Hyundai models. Videos show an easy trick that that involves just a screw driver and a USB cord to start the car in less than a minute. [@nyt-2023] [@nyt-opinion]
+
+::::
 
 ```{r}
 color_palette <- c("#A8C4FF", "#A56A6E", "#89B587", "#6A7FAB", "#FFDAA1", "#EFA4D6", "#7C5FBC", "#F2B37A")
@@ -51,7 +56,7 @@ import altair as alt
 # Load the data
 kia_boys = pd.read_csv("../../data/clean/google-trends.csv")
 
-# Pivot longer the data
+# Pivot the data
 kia_boys = kia_boys.melt(id_vars="week", var_name="trend", value_name="searches")
 kia_boys["trend"] = kia_boys["trend"].apply(lambda x: x.title())
 
@@ -66,6 +71,7 @@ kia_boys["color"] = kia_boys["trend"].map(colors)
 
 cols = kia_boys["trend"].unique()
 
+## Visualize the data in Altair
 line = alt.Chart(
     kia_boys,
     title = alt.Title(

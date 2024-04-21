@@ -25,7 +25,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="data-story_files/libs/clipboard/clipboard.min.js"></script>
@@ -82,9 +102,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level1 page-columns page-full">
+<div class="columns column-body-outset">
+<section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>Beginning intro text for the final data story</p>
+<p>Starting in 2022, a breakout social media trend in Milwaukee, Wisconsin started the rise of a troubling trend: teenagers stealing cars for fun. The trend, started by the alleged “Kia Boys,” spread on the social media platform TikTok, where teenage boys posted videos of themselves stealing cars to take them on joyrides. Often, these videos included step-by-step instructions on how to steal a car, and many of the cars stolen were Kia and Hyundai models. Videos show an easy trick that that involves just a screw driver and a USB cord to start the car in less than a minute. <span class="citation" data-cites="nyt-2023">(<a href="#ref-nyt-2023" role="doc-biblioref">Arango and Fortin 2023</a>)</span> <span class="citation" data-cites="nyt-opinion">(<a href="#ref-nyt-opinion" role="doc-biblioref">Manjoo 2023</a>)</span></p>
+</section>
+</div>
 <div class="columns column-body-outset">
 <div class="column" style="width:35%;">
 <p>Intro text for car theft story</p>
@@ -139,7 +162,6 @@ ul.task-list li input[type="checkbox"] {
 
 </div>
 </div>
-</section>
 <section id="kiahyundai-car-thefts" class="level1">
 <h1>Kia/Hyundai Car Thefts</h1>
 <ul>
@@ -173,11 +195,19 @@ ul.task-list li input[type="checkbox"] {
 <li>Bring arrests, car thefts, and car thefts by make together into one visualization</li>
 </ul>
 </section>
-<section id="conclusion" class="level1">
-<h1>Conclusion</h1>
+<section id="conclusion" class="level1 unnumbered">
+
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Conclusion</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-nyt-2023" class="csl-entry" role="listitem">
+Arango, Tim, and Jacey Fortin. 2023. <span>“Teens Are Stealing More Cars. They Learn How on Social Media.”</span> <em>The New York Times</em>, March. <a href="https://www.nytimes.com/2023/03/10/us/car-thefts-kia-challenge-tiktok.html">https://www.nytimes.com/2023/03/10/us/car-thefts-kia-challenge-tiktok.html</a>.
+</div>
+<div id="ref-nyt-opinion" class="csl-entry" role="listitem">
+Manjoo, Farhad. 2023. <span>“Kia and Hyundai Helped Enable a Crime Wave. They Should Pay for It.”</span> <em>The New York Times</em>, September. <a href="https://www.nytimes.com/2023/09/01/opinion/kia-hyundai-tiktok.html">https://www.nytimes.com/2023/09/01/opinion/kia-hyundai-tiktok.html</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
