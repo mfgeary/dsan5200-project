@@ -12,10 +12,21 @@ format:
     code-tools: true
     embed-resources: true
     grid:
-        body-width: 1000px
+        body-width: 1100px
 theme: lux
 echo: false
 bibliography: ../../references.bib
+vega:
+  renderer:
+    css: |
+      @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;500;600;700&display=swap");
+      @font-face {
+        font-family: 'Nunito Sans';
+      }
+
+      .vega-embed .marks text {
+        font-family: 'Nunito Sans', sans-serif;
+      }
 ---
 
 ```{r}
@@ -79,7 +90,7 @@ nearest = alt.selection_point(
 
 points = line.mark_point(filled=True).encode(
     opacity=alt.condition(nearest, alt.value(1), alt.value(0)),
-    size = alt.Size("searches:Q", scale=alt.Scale(range=[50, 400]), legend=None),
+    size = alt.Size("searches:Q", scale=alt.Scale(range=[10, 800]), legend=None),
 )
 
 rules = alt.Chart(kia_boys).mark_rule(color="gray").encode(
@@ -105,24 +116,35 @@ alt.layer(
 ).configure_axis(
     grid=False,
     labelFontSize=12,
-    titleFontSize=15
+    titleFontSize=15,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans",
 ).configure_view(
-    strokeWidth=0
-).configure_title(
-    fontSize=22
+    strokeWidth=0 
 ).configure_legend(
     titleFontSize=15,
     labelFontSize=12,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans",
 ).configure_line(
     strokeWidth=1.5,
 ).configure_point(
     size=50
+).configure_title(
+    font='Nunito Sans',
+    fontSize=22,
+    subtitleFontSize=15,
+    subtitleFont='Nunito Sans',
+    subtitleColor='#666666'
 )
 ```
 
 # Kia/Hyundai Car Thefts
 
-* Graph of kia boys searches over time
+```{python}
+
+
+```
 
 # Car Thefts in the US
 

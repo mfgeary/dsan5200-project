@@ -5,6 +5,7 @@ format:
   html:
     toc: true
     code-tools: true
+    embed-resources: true
 ---
 
 *Please note: this is not an original work by the students of DSAN 5200. All rights to the author. We are using this as a template for our own work.*
