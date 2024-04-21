@@ -70,7 +70,7 @@ line = alt.Chart(
     kia_boys,
     title = alt.Title(
         "Google Searches over Time for Kia and Hyundai Theft Terms",
-        subtitle = ["Searches for Kia thefts, Hyundai thefts, and Kia Boys in the US, 2020-2024"]
+        subtitle = ["Searches for Kia Thefts, Hyundai Thefts, and Kia Boys in the US, 2020-2024"]
     )
     ).mark_line().encode(
     x=alt.X("week:T").title("Week"),
@@ -85,8 +85,9 @@ nearest = alt.selection_point(
     empty=False
 )
 
-points = line.mark_point().encode(
-    opacity=alt.condition(nearest, alt.value(1), alt.value(0))
+points = line.mark_point(filled=True).encode(
+    opacity=alt.condition(nearest, alt.value(1), alt.value(0)),
+    size = alt.Size("searches:Q", scale=alt.Scale(range=[50, 200]), legend=None),
 )
 
 rules = alt.Chart(kia_boys).mark_rule(color="gray").encode(
