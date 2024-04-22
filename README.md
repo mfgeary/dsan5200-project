@@ -9,9 +9,9 @@ This is a repo for our final data visualization project for DSAN 5200.
 - [x] Data cleaning
 - [x] EDA
 - [x] Story outline
-- [] Draft of story (in progress)
-- [] Edit story
-- [] Final story completed
+- [ ] Draft of story (in progress)
+- [ ] Edit story
+- [ ] Final story completed
 
 ## Data Sources
 
