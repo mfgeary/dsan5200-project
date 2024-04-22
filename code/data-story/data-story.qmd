@@ -142,8 +142,91 @@ alt.layer(
 # Kia/Hyundai Car Thefts
 
 ```{python}
+#| label: fig-total-car-thefts
+#| panel: center
+from vega_datasets import data
 
+# Load the data
+thefts = pd.read_parquet('../../data/clean/kia_hyundia_thefts.parquet')
 
+# Read in city lat and longs
+city_lat_long = pd.read_csv('../../data/clean/city_lat_long.csv')
+
+# Join the data
+thefts = thefts.merge(city_lat_long, left_on='city', right_on='city', how='left')
+
+# Drop rows were count_all is NA
+thefts = thefts.dropna(subset=['count_all'])
+
+# Create map linked to bar chart
+select_yearmonth = alt.selection_interval(
+    encodings=['x'],
+    name='select'
+)
+
+bar = alt.Chart(thefts).mark_bar().encode(
+    x=alt.X('yearmonth(date):O', axis=alt.Axis(title='')),
+    y=alt.Y('sum(count_all):Q').title('Total Car Thefts'),
+    tooltip=['city:N', 'sum(count_all):Q']
+).properties(
+    width=500,
+    height = 100
+).add_params(
+    select_yearmonth
+)
+
+states = alt.topo_feature(data.us_10m.url, feature='states')
+
+background = alt.Chart(states).mark_geoshape(
+    fill='white',
+    stroke='#666666'
+).properties(
+    width=500,
+    height=300
+).project('albersUsa')
+
+points = alt.Chart(thefts).mark_circle(
+    size=20,
+    color='#A8C4FF',
+    opacity=0.8
+).encode(
+    longitude='long:Q',
+    latitude='lat:Q',
+    size=alt.condition(select_yearmonth, 'count_all:Q', alt.value(0), title='Total Car Thefts'),
+    tooltip=['city:N', 'count_all:Q']
+).transform_filter(
+    select_yearmonth
+).properties(
+    title=alt.Title(
+        "U.S. Car Thefts by City over Time",
+        subtitle="Drag the bar chart to filter the map"
+    )
+)
+
+# Create layoutyear
+alt.vconcat(
+    background + points,
+    bar
+).configure_view(
+    strokeWidth=0
+).configure_axis(
+    grid=False,
+    labelFontSize=12,
+    titleFontSize=15,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans"
+).configure_legend(
+    titleFontSize=15,
+    labelFontSize=12,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans"
+).configure_title(
+    font='Nunito Sans',
+    fontSize=22,
+    subtitleFontSize=15,
+    subtitleFont='Nunito Sans',
+    subtitleColor='#666666'
+)
 ```
 
 # Car Thefts in the US
