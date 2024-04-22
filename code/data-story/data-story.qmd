@@ -139,7 +139,9 @@ alt.layer(
 )
 ```
 
-# Kia/Hyundai Car Thefts
+# Total US Car Thefts
+
+[@fig-total-car-thefts]
 
 ```{python}
 #| label: fig-total-car-thefts
@@ -229,9 +231,93 @@ alt.vconcat(
 )
 ```
 
-# Car Thefts in the US
+# Kia Hyundai Thefts in the US
 
-* Car thefts map over time across US
+[@fig-kia-hyundai-thefts]
+
+```{python}
+#| label: fig-kia-hyundai-thefts
+#| panel: center
+
+import pandas as pd
+import altair as alt
+
+# Load the data
+thefts = pd.read_parquet('../../data/clean/kia_hyundia_thefts.parquet')
+city_lat_long = pd.read_csv('../../data/clean/city_lat_long.csv')
+thefts = thefts.merge(city_lat_long, left_on='city', right_on='city', how='left')
+
+thefts = thefts.dropna(subset=['percent_kia_hyundai'])
+
+from vega_datasets import data
+
+states = alt.topo_feature(data.us_10m.url, feature='states')
+
+select_yearmonth = alt.selection_interval(encodings=['x'], name='brush')
+
+area = alt.Chart(thefts).mark_area(color='#A56A6E').encode(
+    x=alt.X('yearmonth(date):T', axis=alt.Axis(title='')),
+    y=alt.Y('average(percent_kia_hyundai):Q', axis=alt.Axis(title='Average % of Thefts')),
+    tooltip=['yearmonth(date):T', 'average(percent_kia_hyundai):Q']
+).properties(
+    width=500,
+    height=100
+).add_params(
+    select_yearmonth
+).properties(
+    title=alt.Title(
+        'Average Percent of Car Thefts that are Kia or Hyundai',
+        subtitle='Drag to select a time range'
+    )
+)
+
+background = alt.Chart(states).mark_geoshape(
+    fill='white',
+    stroke='#666666'
+).properties(
+    width=500,
+    height=300
+).project('albersUsa')
+
+points = alt.Chart(thefts).mark_circle(
+    size=20,
+    color='#A56A6E',
+    opacity=0.6
+).encode(
+    longitude='long:Q',
+    latitude='lat:Q',
+    tooltip=['city:N', 'percent_kia_hyundai:Q'],
+    size=alt.condition(select_yearmonth, 'percent_kia_hyundai:Q', alt.value(0), title='Percent of Thefts')
+).transform_filter(
+    select_yearmonth
+)
+
+alt.vconcat(
+    area,
+    (background + points)
+).configure_view(
+    strokeWidth=0
+).configure_axis(
+    grid=False,
+    labelFontSize=12,
+    titleFontSize=15,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans"
+).configure_legend(
+    titleFontSize=15,
+    labelFontSize=12,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans",
+    orient='bottom'
+).configure_title(
+    font='Nunito Sans',
+    fontSize=22,
+    subtitleFontSize=15,
+    subtitleFont='Nunito Sans',
+    subtitleColor='#666666'
+)
+```
+
 
 # Car Thefts in DC
 * Zoom in to DC area
