@@ -7,12 +7,26 @@ author:
     - Patricia Schenfeld
 date: last-modified
 date-format: long
-output: 
-  html_document:
-    toc: true
+format: 
+  html:
     code-tools: true
+    embed-resources: true
+    grid:
+        body-width: 1100px
 theme: lux
 echo: false
+bibliography: ../../references.bib
+vega:
+  renderer:
+    css: |
+      @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;500;600;700&display=swap");
+      @font-face {
+        font-family: 'Nunito Sans';
+      }
+
+      .vega-embed .marks text {
+        font-family: 'Nunito Sans', sans-serif;
+      }
 ---
 
 ```{r}
@@ -20,38 +34,26 @@ echo: false
 reticulate::use_condaenv("dsan5200", required = TRUE)
 ```
 
-# Introduction
-
-Beginning intro text for the final data story
-
 ```{r}
 color_palette <- c("#A8C4FF", "#A56A6E", "#89B587", "#6A7FAB", "#FFDAA1", "#EFA4D6", "#7C5FBC", "#F2B37A")
 ```
 
-::::: {.columns .column-body-outset}
+# Introduction
 
-:::: {.column width="35%"}
+Starting in 2022, a breakout social media trend started the rise of a troubling trend: teenagers stealing cars for fun. The trend, started by the alleged "Kia Boys," spread on the social media platform TikTok, where teenage boys posted videos of themselves stealing cars to take them on joyrides [@nyt-2023]. Often, these videos included step-by-step instructions on how to steal a car, and many of the cars stolen were Kia and Hyundai models. Videos show an easy trick that that involves just a screw driver and a USB cord to start the car in less than a minute due to a software error [@nyt-opinion]. In @fig-google-trends, we see a significant increase in Google searches for "Kia Boys", "Hyundai Theft", and "Kia Theft" starting in 2022 and continuing through today.
 
-Intro text for car theft story
-
-::::
-
-:::: {.column width="10%"}
-::::
-
-:::: {.column width="55%" style="padding:20px; position:sticky;top:100px"}
-
-::::
-
-:::::
 ```{python}
+#| label: fig-google-trends
+#| panel: center
+#| fig-cap: "Source: Google Trends, accessed April 2024"
+
 import pandas as pd
 import altair as alt
 
 # Load the data
 kia_boys = pd.read_csv("../../data/clean/google-trends.csv")
 
-# Pivot longer the data
+# Pivot the data
 kia_boys = kia_boys.melt(id_vars="week", var_name="trend", value_name="searches")
 kia_boys["trend"] = kia_boys["trend"].apply(lambda x: x.title())
 
@@ -66,11 +68,12 @@ kia_boys["color"] = kia_boys["trend"].map(colors)
 
 cols = kia_boys["trend"].unique()
 
+## Visualize the data in Altair
 line = alt.Chart(
     kia_boys,
     title = alt.Title(
-        "Google Searches over Time for Kia and Hyundai Theft Terms",
-        subtitle = ["Searches for Kia thefts, Hyundai thefts, and Kia Boys in the US, 2020-2024"]
+        "Google Searches over Time for Car Theft Terms",
+        subtitle = ["Searches for Kia Thefts, Hyundai Thefts, and Kia Boys in the US, 2020-2024"]
     )
     ).mark_line().encode(
     x=alt.X("week:T").title("Week"),
@@ -85,8 +88,9 @@ nearest = alt.selection_point(
     empty=False
 )
 
-points = line.mark_point().encode(
-    opacity=alt.condition(nearest, alt.value(1), alt.value(0))
+points = line.mark_point(filled=True).encode(
+    opacity=alt.condition(nearest, alt.value(1), alt.value(0)),
+    size = alt.Size("searches:Q", scale=alt.Scale(range=[10, 800]), legend=None),
 )
 
 rules = alt.Chart(kia_boys).mark_rule(color="gray").encode(
@@ -108,33 +112,280 @@ rules = alt.Chart(kia_boys).transform_pivot(
 alt.layer(
     line, points, rules
 ).properties(
-    width=600, height=300
+    width=625, height=400
 ).configure_axis(
     grid=False,
     labelFontSize=12,
-    titleFontSize=15
+    titleFontSize=15,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans",
 ).configure_view(
-    strokeWidth=0
-).configure_title(
-    fontSize=22
+    strokeWidth=0 
 ).configure_legend(
     titleFontSize=15,
     labelFontSize=12,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans",
 ).configure_line(
     strokeWidth=1.5,
 ).configure_point(
     size=50
+).configure_title(
+    font='Nunito Sans',
+    fontSize=22,
+    subtitleFontSize=15,
+    subtitleFont='Nunito Sans',
+    subtitleColor='#666666'
 )
 ```
 
+# Total US Car Thefts
 
-# Kia/Hyundai Car Thefts
+[@fig-total-car-thefts]
 
-* Graph of kia boys searches over time
+```{python}
+#| label: fig-total-car-thefts
+#| panel: center
+from vega_datasets import data
 
-# Car Thefts in the US
+# Load the data
+thefts = pd.read_parquet('../../data/clean/kia_hyundia_thefts.parquet')
 
-* Car thefts map over time across US
+# Read in city lat and longs
+city_lat_long = pd.read_csv('../../data/clean/city_lat_long.csv')
+
+# Join the data
+thefts = thefts.merge(city_lat_long, left_on='city', right_on='city', how='left')
+
+# Drop rows were count_all is NA
+thefts = thefts.dropna(subset=['count_all'])
+
+# Create map linked to bar chart
+select_yearmonth = alt.selection_interval(
+    encodings=['x'],
+    name='select'
+)
+
+bar = alt.Chart(thefts).mark_bar().encode(
+    x=alt.X('yearmonth(date):O', axis=alt.Axis(title='')),
+    y=alt.Y('sum(count_all):Q').title('Total Car Thefts'),
+    tooltip=['city:N', 'sum(count_all):Q']
+).properties(
+    width=500,
+    height = 100
+).add_params(
+    select_yearmonth
+)
+
+states = alt.topo_feature(data.us_10m.url, feature='states')
+
+background = alt.Chart(states).mark_geoshape(
+    fill='white',
+    stroke='#666666'
+).properties(
+    width=500,
+    height=300
+).project('albersUsa')
+
+points = alt.Chart(thefts).mark_circle(
+    size=20,
+    color='#A8C4FF',
+    opacity=0.8
+).encode(
+    longitude='long:Q',
+    latitude='lat:Q',
+    size=alt.condition(select_yearmonth, 'count_all:Q', alt.value(0), title='Total Car Thefts'),
+    tooltip=['city:N', 'count_all:Q']
+).transform_filter(
+    select_yearmonth
+).properties(
+    title=alt.Title(
+        "U.S. Car Thefts by City over Time",
+        subtitle="Drag the bar chart to filter the map"
+    )
+)
+
+# Create layoutyear
+alt.vconcat(
+    background + points,
+    bar
+).configure_view(
+    strokeWidth=0
+).configure_axis(
+    grid=False,
+    labelFontSize=12,
+    titleFontSize=15,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans"
+).configure_legend(
+    titleFontSize=15,
+    labelFontSize=12,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans"
+).configure_title(
+    font='Nunito Sans',
+    fontSize=22,
+    subtitleFontSize=15,
+    subtitleFont='Nunito Sans',
+    subtitleColor='#666666'
+)
+```
+
+# Kia Hyundai Thefts in the US
+
+[@fig-kia-hyundai-thefts]
+
+```{python}
+#| label: fig-kia-hyundai-thefts
+#| panel: center
+
+import pandas as pd
+import altair as alt
+
+# Load the data
+thefts = pd.read_parquet('../../data/clean/kia_hyundia_thefts.parquet')
+city_lat_long = pd.read_csv('../../data/clean/city_lat_long.csv')
+thefts = thefts.merge(city_lat_long, left_on='city', right_on='city', how='left')
+
+thefts = thefts.dropna(subset=['percent_kia_hyundai'])
+
+from vega_datasets import data
+
+states = alt.topo_feature(data.us_10m.url, feature='states')
+
+select_yearmonth = alt.selection_interval(encodings=['x'], name='brush')
+
+area = alt.Chart(thefts).mark_area(color='#A56A6E').encode(
+    x=alt.X('yearmonth(date):T', axis=alt.Axis(title='')),
+    y=alt.Y('average(percent_kia_hyundai):Q', axis=alt.Axis(title='Average % of Thefts')),
+    tooltip=['yearmonth(date):T', 'average(percent_kia_hyundai):Q']
+).properties(
+    width=500,
+    height=100
+).add_params(
+    select_yearmonth
+).properties(
+    title=alt.Title(
+        'Average Percent of Car Thefts that are Kia or Hyundai',
+        subtitle='Drag to select a time range'
+    )
+)
+
+background = alt.Chart(states).mark_geoshape(
+    fill='white',
+    stroke='#666666'
+).properties(
+    width=500,
+    height=300
+).project('albersUsa')
+
+points = alt.Chart(thefts).mark_circle(
+    size=20,
+    color='#A56A6E',
+    opacity=0.6
+).encode(
+    longitude='long:Q',
+    latitude='lat:Q',
+    tooltip=['city:N', 'percent_kia_hyundai:Q'],
+    size=alt.condition(select_yearmonth, 'percent_kia_hyundai:Q', alt.value(0), title='Percent of Thefts')
+).transform_filter(
+    select_yearmonth
+)
+
+alt.vconcat(
+    area,
+    (background + points)
+).configure_view(
+    strokeWidth=0
+).configure_axis(
+    grid=False,
+    labelFontSize=12,
+    titleFontSize=15,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans"
+).configure_legend(
+    titleFontSize=15,
+    labelFontSize=12,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans",
+    orient='bottom'
+).configure_title(
+    font='Nunito Sans',
+    fontSize=22,
+    subtitleFontSize=15,
+    subtitleFont='Nunito Sans',
+    subtitleColor='#666666'
+)
+```
+
+# Car Thefts in DC
+
+[@fig-kia-hyundai-thefts-area]
+
+```{python}
+#| label: fig-kia-hyundai-thefts-area
+#| panel: center
+
+# Load the data
+thefts = pd.read_csv('../../data/clean/kia_hyundia_thefts.csv')
+
+# Filter city is washington
+thefts = thefts[thefts['city'] == 'Washington, D.C.']
+
+# Drop NaN values
+thefts = thefts.dropna(subset=['percent_kia_hyundai'])
+
+thefts['percent_other'] = 100 - thefts['percent_kia_hyundai']
+
+# Rename columns
+thefts = thefts.rename(columns={'percent_kia_hyundai': 'Percent Kia/Hyundai', 'percent_other': 'Percent Other Makes'})
+
+# Melting the data
+thefts = pd.melt(thefts, id_vars=['date'], value_vars=['Percent Other Makes', 'Percent Kia/Hyundai'], var_name='type', value_name='percent')
+
+# Create the chart
+chart = alt.Chart(thefts).mark_area().encode(
+    x=alt.X('yearmonth(date):T', title=''),
+    y=alt.Y('percent:Q', title='Percent of Thefts'),
+    color=alt.Color('type:N', title='Type of Car', scale=alt.Scale(range=['#A8C4FF', '#A56A6E']), sort=['Percent Other Makes', 'Percent Kia/Hyundai']),
+    tooltip=['yearmonth(date):T', 'percent:Q'],
+    order='type:N'
+).properties(
+    width=600,
+    height=400
+)
+
+# Change legend scale labels
+chart = chart.properties(
+    title=alt.Title(
+        'Thefts by Car Make in Washington, D.C.',
+        subtitle=['Percentage of car thefts by make in Washington, D.C. from 2020 to 2023'],
+    ),
+    width=600,
+    height=400
+)
+
+alt.layer(chart).configure_view(
+    strokeWidth=0
+).configure_axis(
+    grid=False,
+    labelFontSize=12,
+    titleFontSize=15,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans"
+).configure_legend(
+    titleFontSize=15,
+    labelFontSize=12,
+    labelFont="Nunito Sans",
+    titleFont="Nunito Sans"
+).configure_title(
+    font='Nunito Sans',
+    fontSize=22,
+    subtitleFontSize=15,
+    subtitleFont='Nunito Sans',
+    subtitleColor='#666666'
+)
+```
 
 # Car Thefts in DC
 * Zoom in to DC area
