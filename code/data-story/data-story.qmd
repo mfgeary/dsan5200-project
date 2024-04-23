@@ -389,6 +389,36 @@ alt.layer(chart).configure_view(
 
 # Car Thefts in DC
 * Zoom in to DC area
+```{r}
+#| column: screen
+library(leaflet)
+# import tidyverse silently
+suppressPackageStartupMessages(library(tidyverse))
+
+dc_thefts <- read_csv("../../data/clean/crime_dc.csv") |> suppressMessages()
+
+dc_thefts_grouped <- dc_thefts |>
+    summarise(
+        .by = c(latitude, longitude, block),
+        n = n()
+    )
+
+# Create a leaflet map
+dc_thefts_grouped |>
+    mutate(m = n/2) |>
+    leaflet() |>
+    addTiles() |>
+    addCircleMarkers(
+        lng = ~longitude,
+        lat = ~latitude,
+        radius = ~m,
+        color = "red",
+        stroke = FALSE,
+        fillOpacity = 0.5,
+        popup = ~paste0(n, " car thefts at ", block)
+    ) |>
+    setView(lng = -77.0369, lat = 38.9072, zoom = 12)
+```
 
 * Add in map of kia/hyundai thefts over time - link these two maps to each other with a time slider
 
