@@ -9,20 +9,20 @@ dc_thefts_grouped <- dc_thefts |>
         n = n()
     )
 
+providers <- leaflet::providers
 # Create a leaflet map
 dc_thefts_grouped |>
     mutate(m = n/2) |>
     leaflet() |>
-    addTiles() |>
+    # addTiles() |>
+    addProviderTiles(providers$CartoDB.Positron) |>
     addCircleMarkers(
         lng = ~longitude,
         lat = ~latitude,
         radius = ~m,
-        color = "red",
+        color = "#A8C4FF",
         stroke = FALSE,
-        fillOpacity = 0.5,
+        fillOpacity = 0.8,
         popup = ~paste0(n, " car thefts at ", block)
     ) |>
-    # start with a zoomed in view of DC
     setView(lng = -77.0369, lat = 38.9072, zoom = 12)
-

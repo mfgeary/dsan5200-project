@@ -112,7 +112,7 @@ rules = alt.Chart(kia_boys).transform_pivot(
 alt.layer(
     line, points, rules
 ).properties(
-    width=625, height=400
+    width=700, height=400
 ).configure_axis(
     grid=False,
     labelFontSize=12,
@@ -160,24 +160,27 @@ thefts = thefts.merge(city_lat_long, left_on='city', right_on='city', how='left'
 # Drop rows were count_all is NA
 thefts = thefts.dropna(subset=['count_all'])
 
-# Create map linked to bar chart
-select_yearmonth = alt.selection_interval(
-    encodings=['x'],
-    name='select'
-)
-
-bar = alt.Chart(thefts).mark_bar().encode(
-    x=alt.X('yearmonth(date):O', axis=alt.Axis(title='')),
-    y=alt.Y('sum(count_all):Q').title('Total Car Thefts'),
-    tooltip=['city:N', 'sum(count_all):Q']
-).properties(
-    width=500,
-    height = 100
-).add_params(
-    select_yearmonth
-)
+from vega_datasets import data
 
 states = alt.topo_feature(data.us_10m.url, feature='states')
+
+select_yearmonth = alt.selection_interval(encodings=['x'], name='brush')
+
+area = alt.Chart(thefts).mark_area(color='#A56A6E').encode(
+    x=alt.X('yearmonth(date):T', axis=alt.Axis(title='')),
+    y=alt.Y('average(percent_kia_hyundai):Q', axis=alt.Axis(title='Average % of Thefts')),
+    tooltip=[alt.Tooltip('yearmonth(date):T', format='%B %Y', title='Month'), alt.Tooltip('average(percent_kia_hyundai):Q', format='.2f', title='Average % of Thefts for Kia and Hyundai')],
+).properties(
+    width=500,
+    height=100
+).add_params(
+    select_yearmonth
+).properties(
+    title=alt.Title(
+        'Average Percent of Car Thefts that are Kia or Hyundai',
+        subtitle='Drag to select a time range'
+    )
+)
 
 background = alt.Chart(states).mark_geoshape(
     fill='white',
@@ -189,26 +192,20 @@ background = alt.Chart(states).mark_geoshape(
 
 points = alt.Chart(thefts).mark_circle(
     size=20,
-    color='#A8C4FF',
-    opacity=0.8
+    color='#A56A6E',
+    opacity=0.6
 ).encode(
     longitude='long:Q',
     latitude='lat:Q',
-    size=alt.condition(select_yearmonth, 'count_all:Q', alt.value(0), title='Total Car Thefts'),
-    tooltip=['city:N', 'count_all:Q']
+    tooltip=[alt.Tooltip('city:N', title='City'), alt.Tooltip('percent_kia_hyundai:Q', format='.2f', title='Percent of Thefts for Kia and Hyundai')],
+    size=alt.condition(select_yearmonth, 'percent_kia_hyundai:Q', alt.value(0), title='Percent of Thefts')
 ).transform_filter(
     select_yearmonth
-).properties(
-    title=alt.Title(
-        "U.S. Car Thefts by City over Time",
-        subtitle="Drag the bar chart to filter the map"
-    )
 )
 
-# Create layoutyear
 alt.vconcat(
-    background + points,
-    bar
+    area,
+    (background + points)
 ).configure_view(
     strokeWidth=0
 ).configure_axis(
@@ -221,7 +218,8 @@ alt.vconcat(
     titleFontSize=15,
     labelFontSize=12,
     labelFont="Nunito Sans",
-    titleFont="Nunito Sans"
+    titleFont="Nunito Sans",
+    orient='bottom'
 ).configure_title(
     font='Nunito Sans',
     fontSize=22,
@@ -258,10 +256,10 @@ select_yearmonth = alt.selection_interval(encodings=['x'], name='brush')
 area = alt.Chart(thefts).mark_area(color='#A56A6E').encode(
     x=alt.X('yearmonth(date):T', axis=alt.Axis(title='')),
     y=alt.Y('average(percent_kia_hyundai):Q', axis=alt.Axis(title='Average % of Thefts')),
-    tooltip=['yearmonth(date):T', 'average(percent_kia_hyundai):Q']
+    tooltip=[alt.Tooltip('yearmonth(date):T', format='%B %Y', title='Month'), alt.Tooltip('average(percent_kia_hyundai):Q', format='.2f', title='Average % of Thefts for Kia and Hyundai')],
 ).properties(
-    width=500,
-    height=100
+    width=700,
+    height=150
 ).add_params(
     select_yearmonth
 ).properties(
@@ -275,8 +273,8 @@ background = alt.Chart(states).mark_geoshape(
     fill='white',
     stroke='#666666'
 ).properties(
-    width=500,
-    height=300
+    width=700,
+    height=350
 ).project('albersUsa')
 
 points = alt.Chart(thefts).mark_circle(
@@ -286,7 +284,7 @@ points = alt.Chart(thefts).mark_circle(
 ).encode(
     longitude='long:Q',
     latitude='lat:Q',
-    tooltip=['city:N', 'percent_kia_hyundai:Q'],
+    tooltip=[alt.Tooltip('city:N', title='City'), alt.Tooltip('percent_kia_hyundai:Q', format='.2f', title='Percent of Thefts for Kia and Hyundai')],
     size=alt.condition(select_yearmonth, 'percent_kia_hyundai:Q', alt.value(0), title='Percent of Thefts')
 ).transform_filter(
     select_yearmonth
@@ -348,10 +346,10 @@ chart = alt.Chart(thefts).mark_area().encode(
     x=alt.X('yearmonth(date):T', title=''),
     y=alt.Y('percent:Q', title='Percent of Thefts'),
     color=alt.Color('type:N', title='Type of Car', scale=alt.Scale(range=['#A8C4FF', '#A56A6E']), sort=['Percent Other Makes', 'Percent Kia/Hyundai']),
-    tooltip=['yearmonth(date):T', 'percent:Q'],
+    tooltip=[alt.Tooltip('yearmonth(date):T', title='Month'), alt.Tooltip('percent:Q', format='.2f', title='Percent of Thefts')],
     order='type:N'
 ).properties(
-    width=600,
+    width=650,
     height=400
 )
 
@@ -361,7 +359,7 @@ chart = chart.properties(
         'Thefts by Car Make in Washington, D.C.',
         subtitle=['Percentage of car thefts by make in Washington, D.C. from 2020 to 2023'],
     ),
-    width=600,
+    width=650,
     height=400
 )
 
@@ -389,8 +387,12 @@ alt.layer(chart).configure_view(
 
 # Car Thefts in DC
 * Zoom in to DC area
+
+[@fig-dc-thefts-leaflet]
+
 ```{r}
 #| column: screen
+#| label: fig-dc-thefts-leaflet
 library(leaflet)
 # import tidyverse silently
 suppressPackageStartupMessages(library(tidyverse))
@@ -403,19 +405,22 @@ dc_thefts_grouped <- dc_thefts |>
         n = n()
     )
 
+providers <- leaflet::providers
 # Create a leaflet map
 dc_thefts_grouped |>
     mutate(m = n/2) |>
     leaflet() |>
-    addTiles() |>
+    # addTiles() |>
+    addProviderTiles(providers$CartoDB.Positron) |>
     addCircleMarkers(
         lng = ~longitude,
         lat = ~latitude,
         radius = ~m,
-        color = "red",
+        color = "#A8C4FF",
         stroke = FALSE,
-        fillOpacity = 0.5,
-        popup = ~paste0(n, " car thefts at ", block)
+        fillOpacity = 0.8,
+        # add pop up, handling for the plural case :)
+        popup = ~paste0(n, " car theft", ifelse(n == 1, "", "s"), " at ", block)
     ) |>
     setView(lng = -77.0369, lat = 38.9072, zoom = 12)
 ```
