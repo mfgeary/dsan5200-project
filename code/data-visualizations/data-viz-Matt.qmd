@@ -1,0 +1,136 @@
+---
+title: "data-viz-Matt"
+format: html
+editor: visual
+---
+
+## Loading in Packages and Data
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+```{r}
+arrests <- read.csv("../../data/clean/adult_arrests_dc.csv")
+arrests$date<-as.Date(arrests$date)
+```
+
+## Data Viz 1: Visualzing Notable Crimes Over Time in DC
+```{r}
+specified_categories <- c("Homicide", "Motor Vehicle Theft", "Aggravated Assault", "Narcotics", "Robbery", "Burglary", "Theft")
+
+subset_arrests <- arrests %>% 
+  filter(arrest_category %in% specified_categories)
+
+```
+
+
+```{r}
+# Combine Robbery, Burglary, and Theft into one category
+subset_arrests <- subset_arrests %>%
+  mutate(arrest_category = ifelse(arrest_category %in% c("Robbery", "Burglary", "Theft"), "Robbery/Burglary/Theft", arrest_category))
+
+# Convert date column to Date type
+subset_arrests$date <- as.Date(subset_arrests$date)
+
+# Extract month and year from date
+subset_arrests <- subset_arrests %>%
+  mutate(month = format(date, "%Y-%m"))
+
+# Group by month and arrest_category, count the number of arrests
+crime_counts <- subset_arrests %>%
+  group_by(month, arrest_category) %>%
+  summarise(count = n())
+
+ggplot(crime_counts, aes(x = month, y = count, color = arrest_category, group = arrest_category)) +
+  geom_line() +
+  labs(title = "Monthly Counts of Combined Crimes",
+       x = "Month",
+       y = "Count",
+       color = "Arrest Category") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# Assuming you have a data frame named 'subset_arrests'
+
+# Combine Robbery, Burglary, and Theft into one category
+subset_arrests <- subset_arrests %>%
+  mutate(arrest_category = ifelse(arrest_category %in% c("Robbery", "Burglary", "Theft"), "Robbery/Burglary/Theft", arrest_category))
+
+# Convert date column to Date type
+subset_arrests$date <- as.Date(subset_arrests$date)
+
+# Extract month and year from date
+subset_arrests <- subset_arrests %>%
+  mutate(month = format(date, "%Y-%m"))
+
+# Count total number of arrests per month
+total_arrests <- subset_arrests %>%
+  group_by(month) %>%
+  summarise(total_count = n())
+
+# Group by month and arrest_category, count the number of arrests
+crime_counts <- subset_arrests %>%
+  group_by(month, arrest_category) %>%
+  summarise(count = n())
+
+# Merge with total arrests to calculate proportions
+crime_proportions <- left_join(crime_counts, total_arrests, by = "month") %>%
+  mutate(proportion = count / total_count)
+
+# Plot
+ggplot(crime_proportions, aes(x = month, y = proportion, color = arrest_category, group = arrest_category)) +
+  geom_line() +
+  labs(title = "Proportion of Combined Crimes Over Time",
+       x = "Month",
+       y = "Proportion",
+       color = "Arrest Category") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+```
+
+
+```{r}
+# Filter data to include only specified categories
+filtered_data <- subset_arrests %>%
+  filter(arrest_category %in% c("Homicide", "Motor Vehicle Theft", "Aggravated Assault"))
+
+# Convert date column to Date type
+filtered_data$date <- as.Date(filtered_data$date)
+
+# Extract year and month with format for every 6 months
+filtered_data <- filtered_data %>%
+  mutate(month = format(date, "%Y-%m"),
+         six_month = paste0(substr(month, 1, 4), "-",
+                            ifelse(as.integer(substr(month, 6, 7)) <= 6, "01", "07")))
+
+# Group by 6 months and arrest_category, count the number of arrests
+crime_counts <- filtered_data %>%
+  group_by(six_month, arrest_category) %>%
+  summarise(count = n())
+
+# Plot
+ggplot(crime_counts, aes(x = six_month, y = count, color = arrest_category, group = arrest_category)) +
+  geom_line() +
+  labs(title = "Counts of Homicide, Motor Vehicle Theft, and Aggravated Assault Every 6 Months",
+       x = "6-Month Period",
+       y = "Count",
+       color = "Arrest Category") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+
+
+```
+
+
+
+
+
+
