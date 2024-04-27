@@ -16,7 +16,7 @@ arrests <- read.csv("../../data/clean/adult_arrests_dc.csv")
 arrests$date<-as.Date(arrests$date)
 ```
 
-## Data Viz 1: Visualzing Notable Crimes Over Time in DC
+## Data Viz 1: Visualzing Notable Arrests Over Time in DC
 ```{r}
 specified_categories <- c("Homicide", "Motor Vehicle Theft", "Aggravated Assault", "Narcotics", "Robbery", "Burglary", "Theft")
 
@@ -53,11 +53,6 @@ ggplot(crime_counts, aes(x = month, y = count, color = arrest_category, group = 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
 ```{r}
-library(dplyr)
-library(ggplot2)
-
-# Assuming you have a data frame named 'subset_arrests'
-
 # Combine Robbery, Burglary, and Theft into one category
 subset_arrests <- subset_arrests %>%
   mutate(arrest_category = ifelse(arrest_category %in% c("Robbery", "Burglary", "Theft"), "Robbery/Burglary/Theft", arrest_category))
@@ -118,7 +113,7 @@ crime_counts <- filtered_data %>%
 # Plot
 ggplot(crime_counts, aes(x = six_month, y = count, color = arrest_category, group = arrest_category)) +
   geom_line() +
-  labs(title = "Counts of Homicide, Motor Vehicle Theft, and Aggravated Assault Every 6 Months",
+  labs(title = "Counts of Homicide, Motor Vehicle Theft, and Aggravated Assault Arrests",
        x = "6-Month Period",
        y = "Count",
        color = "Arrest Category") +
@@ -129,8 +124,146 @@ ggplot(crime_counts, aes(x = six_month, y = count, color = arrest_category, grou
 
 ```
 
+## Data Viz 2
+```{r}
+cars <- read.csv("../../data/clean/crime_dc.csv")
+```
 
+```{r}
+library(lubridate)
+# Parse the date strings into POSIXct objects (date-time class)
+cars$date <- ymd_hms(cars$report_date)
+cars$date <- as.Date(cars$date)
+```
 
+```{r}
+cars_aggregated <- cars %>%
+  mutate(month_year = floor_date(date, "month")) %>%
+  group_by(month_year) %>%
+  summarize(theft_count = n())
 
+# Filter the data to include only dates before 2024
+cars_aggregated <- cars_aggregated %>%
+  filter(month_year < as.Date("2024-01-01"))
+
+# Plot the aggregated counts as a line plot
+ggplot(cars_aggregated, aes(x = month_year, y = theft_count)) +
+  geom_line() +
+  labs(x = "Month-Year", y = "Number of Car Thefts", title = "Monthly Counts of Car Thefts") +
+  theme_minimal()
+```
+
+```{r}
+cars_aggregated <- cars %>%
+  mutate(year = year(date)) %>%
+  group_by(year) %>%
+  summarize(theft_count = n())
+
+# Calculate the year-over-year percentage increase for each year
+cars_aggregated <- cars_aggregated %>%
+  mutate(yoy_increase = (theft_count / lag(theft_count, default = first(theft_count))) - 1)
+
+# Print the result
+print(cars_aggregated)
+```
+
+```{r}
+cars$district <- as.factor(cars$district)
+
+# Aggregate the number of car thefts by month and district
+cars_aggregated <- cars %>%
+  filter(!is.na(district)) %>%
+  mutate(month_year = floor_date(date, "month")) %>%
+  group_by(month_year, district) %>%
+  summarize(theft_count = n())
+
+# Filter the data to include only dates before 2024
+cars_aggregated <- cars_aggregated %>%
+  filter(month_year < as.Date("2024-01-01"))
+
+# Plot the aggregated counts as a line plot
+ggplot(cars_aggregated, aes(x = month_year, y = theft_count, color = district)) +
+  geom_line() +
+  labs(x = "Month-Year", y = "Number of Car Thefts", title = "Monthly Counts of Car Thefts by District") +
+  theme_minimal()
+```
+```{r}
+cars_aggregated <- cars %>%
+  mutate(year = year(date)) %>%
+  group_by(year) %>%
+  summarize(theft_count = n())
+
+# Calculate year-over-year growth percentage
+cars_aggregated <- cars_aggregated %>%
+  mutate(yoy_growth = (theft_count / lag(theft_count, default = first(theft_count))) - 1)
+
+# Filter out the data for the year 2024
+cars_aggregated <- cars_aggregated %>%
+  filter(year < 2024)
+
+# Plot yearly counts as bars and year-over-year growth percentage as a line
+ggplot(cars_aggregated, aes(x = factor(year), y = theft_count)) +
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+  geom_line(aes(y = yoy_growth * max(theft_count), group = 1), color = "red") +
+  geom_text(aes(label = paste0(round(yoy_growth * 100, 1), "%")), 
+            hjust = -0.2, vjust = -0.5, color = "red", size = 3) +
+  labs(x = "Year", y = "Number of Car Thefts", 
+       title = "Yearly Counts of Car Thefts with YoY Growth Percentage") +
+  theme_minimal()
+```
+
+```{r}
+# Assuming your data frame is named cars and contains a column named date
+# Aggregate the number of car thefts by year
+cars_aggregated <- cars %>%
+  mutate(year = year(date)) %>%
+  group_by(year) %>%
+  summarize(theft_count = n())
+
+# Calculate year-over-year growth percentage
+cars_aggregated <- cars_aggregated %>%
+  mutate(yoy_growth = (theft_count / lag(theft_count, default = first(theft_count))) - 1)
+
+# Filter out the data for the year 2024
+cars_aggregated <- cars_aggregated %>%
+  filter(year < 2024)
+
+# Plot yearly counts as a line plot
+p <- ggplot(cars_aggregated, aes(x = year, y = theft_count)) +
+  geom_line(color = "blue") +
+  labs(x = "Year", y = "Number of Car Thefts", 
+       title = "Yearly Counts of Car Thefts with YoY Growth Percentage") +
+  theme_minimal()
+
+# Add labels for year-over-year growth percentages
+p + geom_text(data = cars_aggregated, aes(label = paste0(round(yoy_growth * 100, 1), "%"), x = year, y = theft_count), 
+              hjust = -0.2, vjust = -0.5, color = "red", size = 3)
+```
+
+## Innovative Viz: Sankey Diagram
+Here I am preparing my data to make a Sankey Diagram, links, nodes, etc.
+
+Get all crime raw data.
+```{r}
+library(purrr)
+
+# Directory containing CSV files
+directory <- "../../data/raw/"
+
+# List all CSV files in the directory
+csv_files <- list.files(path = directory, pattern = "^Crime_Incidents_in_\\d{4}\\.csv$", full.names = TRUE)
+
+# Read all CSV files and combine them into a single data frame
+all_data <- csv_files %>%
+  map_dfr(read.csv)
+
+# Display the structure of the combined data frame
+str(all_data)
+
+```
+
+```{r}
+
+```
 
 

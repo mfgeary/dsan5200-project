@@ -1,0 +1,642 @@
+{
+  "nodes": [
+    {
+      "name": ["ARSON"],
+      "id": [1]
+    },
+    {
+      "name": ["ASSAULT W/DANGEROUS WEAPON"],
+      "id": [2]
+    },
+    {
+      "name": ["BURGLARY"],
+      "id": [3]
+    },
+    {
+      "name": ["HOMICIDE"],
+      "id": [4]
+    },
+    {
+      "name": ["MOTOR VEHICLE THEFT"],
+      "id": [5]
+    },
+    {
+      "name": ["ROBBERY"],
+      "id": [6]
+    },
+    {
+      "name": ["SEX ABUSE"],
+      "id": [7]
+    },
+    {
+      "name": ["THEFT F/AUTO"],
+      "id": [8]
+    },
+    {
+      "name": ["THEFT/OTHER"],
+      "id": [9]
+    },
+    {
+      "name": ["1"],
+      "id": [10]
+    },
+    {
+      "name": ["2"],
+      "id": [11]
+    },
+    {
+      "name": ["3"],
+      "id": [12]
+    },
+    {
+      "name": ["5"],
+      "id": [13]
+    },
+    {
+      "name": ["6"],
+      "id": [14]
+    },
+    {
+      "name": ["7"],
+      "id": [15]
+    },
+    {
+      "name": ["8"],
+      "id": [16]
+    },
+    {
+      "name": ["4"],
+      "id": [17]
+    }
+  ],
+  "links": {
+    "source": [1],
+    "target": [10],
+    "value": [
+      {
+        "count": 3
+      }
+    ],
+    "label": ["OFFENSE"],
+    "source.1": [1],
+    "target.1": [11],
+    "value.1": [
+      {
+        "count": 7
+      }
+    ],
+    "label.1": ["OFFENSE"],
+    "source.2": [1],
+    "target.2": [12],
+    "value.2": [
+      {
+        "count": 2
+      }
+    ],
+    "label.2": ["OFFENSE"],
+    "source.3": [1],
+    "target.3": [13],
+    "value.3": [
+      {
+        "count": 8
+      }
+    ],
+    "label.3": ["OFFENSE"],
+    "source.4": [1],
+    "target.4": [14],
+    "value.4": [
+      {
+        "count": 3
+      }
+    ],
+    "label.4": ["OFFENSE"],
+    "source.5": [1],
+    "target.5": [15],
+    "value.5": [
+      {
+        "count": 7
+      }
+    ],
+    "label.5": ["OFFENSE"],
+    "source.6": [1],
+    "target.6": [16],
+    "value.6": [
+      {
+        "count": 10
+      }
+    ],
+    "label.6": ["OFFENSE"],
+    "source.7": [2],
+    "target.7": [10],
+    "value.7": [
+      {
+        "count": 702
+      }
+    ],
+    "label.7": ["OFFENSE"],
+    "source.8": [2],
+    "target.8": [11],
+    "value.8": [
+      {
+        "count": 554
+      }
+    ],
+    "label.8": ["OFFENSE"],
+    "source.9": [2],
+    "target.9": [12],
+    "value.9": [
+      {
+        "count": 131
+      }
+    ],
+    "label.9": ["OFFENSE"],
+    "source.10": [2],
+    "target.10": [17],
+    "value.10": [
+      {
+        "count": 427
+      }
+    ],
+    "label.10": ["OFFENSE"],
+    "source.11": [2],
+    "target.11": [13],
+    "value.11": [
+      {
+        "count": 1306
+      }
+    ],
+    "label.11": ["OFFENSE"],
+    "source.12": [2],
+    "target.12": [14],
+    "value.12": [
+      {
+        "count": 580
+      }
+    ],
+    "label.12": ["OFFENSE"],
+    "source.13": [2],
+    "target.13": [15],
+    "value.13": [
+      {
+        "count": 1820
+      }
+    ],
+    "label.13": ["OFFENSE"],
+    "source.14": [2],
+    "target.14": [16],
+    "value.14": [
+      {
+        "count": 2126
+      }
+    ],
+    "label.14": ["OFFENSE"],
+    "source.15": [3],
+    "target.15": [10],
+    "value.15": [
+      {
+        "count": 707
+      }
+    ],
+    "label.15": ["OFFENSE"],
+    "source.16": [3],
+    "target.16": [11],
+    "value.16": [
+      {
+        "count": 1095
+      }
+    ],
+    "label.16": ["OFFENSE"],
+    "source.17": [3],
+    "target.17": [12],
+    "value.17": [
+      {
+        "count": 385
+      }
+    ],
+    "label.17": ["OFFENSE"],
+    "source.18": [3],
+    "target.18": [17],
+    "value.18": [
+      {
+        "count": 470
+      }
+    ],
+    "label.18": ["OFFENSE"],
+    "source.19": [3],
+    "target.19": [13],
+    "value.19": [
+      {
+        "count": 1147
+      }
+    ],
+    "label.19": ["OFFENSE"],
+    "source.20": [3],
+    "target.20": [14],
+    "value.20": [
+      {
+        "count": 657
+      }
+    ],
+    "label.20": ["OFFENSE"],
+    "source.21": [3],
+    "target.21": [15],
+    "value.21": [
+      {
+        "count": 766
+      }
+    ],
+    "label.21": ["OFFENSE"],
+    "source.22": [3],
+    "target.22": [16],
+    "value.22": [
+      {
+        "count": 803
+      }
+    ],
+    "label.22": ["OFFENSE"],
+    "source.23": [4],
+    "target.23": [10],
+    "value.23": [
+      {
+        "count": 85
+      }
+    ],
+    "label.23": ["OFFENSE"],
+    "source.24": [4],
+    "target.24": [11],
+    "value.24": [
+      {
+        "count": 38
+      }
+    ],
+    "label.24": ["OFFENSE"],
+    "source.25": [4],
+    "target.25": [12],
+    "value.25": [
+      {
+        "count": 12
+      }
+    ],
+    "label.25": ["OFFENSE"],
+    "source.26": [4],
+    "target.26": [17],
+    "value.26": [
+      {
+        "count": 60
+      }
+    ],
+    "label.26": ["OFFENSE"],
+    "source.27": [4],
+    "target.27": [13],
+    "value.27": [
+      {
+        "count": 137
+      }
+    ],
+    "label.27": ["OFFENSE"],
+    "source.28": [4],
+    "target.28": [14],
+    "value.28": [
+      {
+        "count": 77
+      }
+    ],
+    "label.28": ["OFFENSE"],
+    "source.29": [4],
+    "target.29": [15],
+    "value.29": [
+      {
+        "count": 268
+      }
+    ],
+    "label.29": ["OFFENSE"],
+    "source.30": [4],
+    "target.30": [16],
+    "value.30": [
+      {
+        "count": 385
+      }
+    ],
+    "label.30": ["OFFENSE"],
+    "source.31": [5],
+    "target.31": [10],
+    "value.31": [
+      {
+        "count": 2278
+      }
+    ],
+    "label.31": ["OFFENSE"],
+    "source.32": [5],
+    "target.32": [11],
+    "value.32": [
+      {
+        "count": 2001
+      }
+    ],
+    "label.32": ["OFFENSE"],
+    "source.33": [5],
+    "target.33": [12],
+    "value.33": [
+      {
+        "count": 589
+      }
+    ],
+    "label.33": ["OFFENSE"],
+    "source.34": [5],
+    "target.34": [17],
+    "value.34": [
+      {
+        "count": 1811
+      }
+    ],
+    "label.34": ["OFFENSE"],
+    "source.35": [5],
+    "target.35": [13],
+    "value.35": [
+      {
+        "count": 3612
+      }
+    ],
+    "label.35": ["OFFENSE"],
+    "source.36": [5],
+    "target.36": [14],
+    "value.36": [
+      {
+        "count": 2738
+      }
+    ],
+    "label.36": ["OFFENSE"],
+    "source.37": [5],
+    "target.37": [15],
+    "value.37": [
+      {
+        "count": 3762
+      }
+    ],
+    "label.37": ["OFFENSE"],
+    "source.38": [5],
+    "target.38": [16],
+    "value.38": [
+      {
+        "count": 2653
+      }
+    ],
+    "label.38": ["OFFENSE"],
+    "source.39": [6],
+    "target.39": [10],
+    "value.39": [
+      {
+        "count": 1809
+      }
+    ],
+    "label.39": ["OFFENSE"],
+    "source.40": [6],
+    "target.40": [11],
+    "value.40": [
+      {
+        "count": 1270
+      }
+    ],
+    "label.40": ["OFFENSE"],
+    "source.41": [6],
+    "target.41": [12],
+    "value.41": [
+      {
+        "count": 227
+      }
+    ],
+    "label.41": ["OFFENSE"],
+    "source.42": [6],
+    "target.42": [17],
+    "value.42": [
+      {
+        "count": 969
+      }
+    ],
+    "label.42": ["OFFENSE"],
+    "source.43": [6],
+    "target.43": [13],
+    "value.43": [
+      {
+        "count": 1896
+      }
+    ],
+    "label.43": ["OFFENSE"],
+    "source.44": [6],
+    "target.44": [14],
+    "value.44": [
+      {
+        "count": 1397
+      }
+    ],
+    "label.44": ["OFFENSE"],
+    "source.45": [6],
+    "target.45": [15],
+    "value.45": [
+      {
+        "count": 2403
+      }
+    ],
+    "label.45": ["OFFENSE"],
+    "source.46": [6],
+    "target.46": [16],
+    "value.46": [
+      {
+        "count": 1837
+      }
+    ],
+    "label.46": ["OFFENSE"],
+    "source.47": [7],
+    "target.47": [10],
+    "value.47": [
+      {
+        "count": 91
+      }
+    ],
+    "label.47": ["OFFENSE"],
+    "source.48": [7],
+    "target.48": [11],
+    "value.48": [
+      {
+        "count": 121
+      }
+    ],
+    "label.48": ["OFFENSE"],
+    "source.49": [7],
+    "target.49": [12],
+    "value.49": [
+      {
+        "count": 43
+      }
+    ],
+    "label.49": ["OFFENSE"],
+    "source.50": [7],
+    "target.50": [17],
+    "value.50": [
+      {
+        "count": 61
+      }
+    ],
+    "label.50": ["OFFENSE"],
+    "source.51": [7],
+    "target.51": [13],
+    "value.51": [
+      {
+        "count": 139
+      }
+    ],
+    "label.51": ["OFFENSE"],
+    "source.52": [7],
+    "target.52": [14],
+    "value.52": [
+      {
+        "count": 133
+      }
+    ],
+    "label.52": ["OFFENSE"],
+    "source.53": [7],
+    "target.53": [15],
+    "value.53": [
+      {
+        "count": 173
+      }
+    ],
+    "label.53": ["OFFENSE"],
+    "source.54": [7],
+    "target.54": [16],
+    "value.54": [
+      {
+        "count": 178
+      }
+    ],
+    "label.54": ["OFFENSE"],
+    "source.55": [8],
+    "target.55": [10],
+    "value.55": [
+      {
+        "count": 6838
+      }
+    ],
+    "label.55": ["OFFENSE"],
+    "source.56": [8],
+    "target.56": [11],
+    "value.56": [
+      {
+        "count": 8051
+      }
+    ],
+    "label.56": ["OFFENSE"],
+    "source.57": [8],
+    "target.57": [12],
+    "value.57": [
+      {
+        "count": 2938
+      }
+    ],
+    "label.57": ["OFFENSE"],
+    "source.58": [8],
+    "target.58": [17],
+    "value.58": [
+      {
+        "count": 5142
+      }
+    ],
+    "label.58": ["OFFENSE"],
+    "source.59": [8],
+    "target.59": [13],
+    "value.59": [
+      {
+        "count": 7373
+      }
+    ],
+    "label.59": ["OFFENSE"],
+    "source.60": [8],
+    "target.60": [14],
+    "value.60": [
+      {
+        "count": 5344
+      }
+    ],
+    "label.60": ["OFFENSE"],
+    "source.61": [8],
+    "target.61": [15],
+    "value.61": [
+      {
+        "count": 4560
+      }
+    ],
+    "label.61": ["OFFENSE"],
+    "source.62": [8],
+    "target.62": [16],
+    "value.62": [
+      {
+        "count": 2936
+      }
+    ],
+    "label.62": ["OFFENSE"],
+    "source.63": [9],
+    "target.63": [10],
+    "value.63": [
+      {
+        "count": 9237
+      }
+    ],
+    "label.63": ["OFFENSE"],
+    "source.64": [9],
+    "target.64": [11],
+    "value.64": [
+      {
+        "count": 14647
+      }
+    ],
+    "label.64": ["OFFENSE"],
+    "source.65": [9],
+    "target.65": [12],
+    "value.65": [
+      {
+        "count": 4227
+      }
+    ],
+    "label.65": ["OFFENSE"],
+    "source.66": [9],
+    "target.66": [17],
+    "value.66": [
+      {
+        "count": 4961
+      }
+    ],
+    "label.66": ["OFFENSE"],
+    "source.67": [9],
+    "target.67": [13],
+    "value.67": [
+      {
+        "count": 8578
+      }
+    ],
+    "label.67": ["OFFENSE"],
+    "source.68": [9],
+    "target.68": [14],
+    "value.68": [
+      {
+        "count": 8974
+      }
+    ],
+    "label.68": ["OFFENSE"],
+    "source.69": [9],
+    "target.69": [15],
+    "value.69": [
+      {
+        "count": 6214
+      }
+    ],
+    "label.69": ["OFFENSE"],
+    "source.70": [9],
+    "target.70": [16],
+    "value.70": [
+      {
+        "count": 4567
+      }
+    ],
+    "label.70": ["OFFENSE"]
+  }
+}
