@@ -1,0 +1,45 @@
+---
+output: html_document
+execute:
+  echo: false
+engine: knitr
+format:
+    html:
+        embed_resources: true
+---
+
+```{python}
+#| column: page
+import plotly.express as px
+kia_hyundai = pd.read_csv('../../data/clean/kia_hyundai_thefts_data.csv')
+kia_hyundai['year_month'] = kia_hyundai['year'].astype(str) + '-' + kia_hyundai['month']
+
+# Create the heatmap with time slider by month and year
+fig = px.density_mapbox(kia_hyundai, lat='lat', lon='long', z='percent_kia_hyundai',
+                        radius=10, animation_frame='year_month',
+                        center=dict(lat=38.0902, lon=-97), zoom=3,
+                        mapbox_style="carto-positron",
+                        width=1000, height=800,
+                        range_color=(0, 100),
+                        labels={'percent_kia_hyundai': 'Percentage of Kia/Hyundai Thefts'})
+
+# Customize the appearance of the slider to show each month and year in text
+fig.update_layout(
+    sliders=[{
+        "active": 0,
+        "yanchor": "top",
+        "xanchor": "left",
+        "currentvalue": {
+            "font": {"size": 20},
+            "prefix": "Year and Month: ",
+            "visible": True,
+            "xanchor": "right"
+        },
+        "steps": [{
+            "label": month_year,
+            "method": "animate",
+            "args": [[month_year], {"frame": {"duration": 100, "redraw": True}, "mode": "immediate", "transition": {"duration": 10}}]
+        } for month_year in kia_hyundai['year_month'].unique()]
+    }]
+)
+```

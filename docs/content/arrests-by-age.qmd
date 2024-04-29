@@ -1,0 +1,65 @@
+---
+title: "Arrest Demographics"
+output: html_document
+execute:
+  echo: false
+engine: knitr
+format:
+    html:
+        embed_resources: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+library(plotly)
+library(readr)
+reticulate::use_condaenv("dsan5200", required = TRUE)
+color_palette <- c("#A8C4FF", "#A56A6E", "#89B587", "#6A7FAB", "#FFDAA1", "#EFA4D6", "#7C5FBC", "#F2B37A")
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+raw_arrests <- read_csv("../../data/clean/adult_arrests_dc.csv")
+raw_juvenile <- read_csv("../../data/clean/juvenile_arrests_dc.csv")
+```
+
+```{r}
+arrests_df <- raw_arrests %>% 
+  select(-c(arrestee_type, ccn, arrest_number_number, arrest_date))
+```
+
+```{r}
+total_by_age <- arrests_df %>% 
+  group_by(age, charge = charge_description) %>% 
+  summarise(total = n()) %>% 
+  group_by(charge) %>% 
+  mutate(prop = total / sum(total),
+         charge = factor(charge)) %>% 
+  filter(charge %in% c("Theft First Degree (Stolen Auto)", 
+                       "Unauthorized Use Of A Vehicle",
+                       "Simple Assault",
+                       "Unlawful Entry")) %>%
+  select(-total)
+
+order <- c("Simple Assault",
+           "Unlawful Entry",
+           "Theft First Degree (Stolen Auto)", 
+           "Unauthorized Use Of A Vehicle"
+           )
+
+ggplot(total_by_age, aes(x = age, y = factor(charge, levels = order), fill = prop)) +
+  geom_tile(height = 0.7, color = "black") +
+  scale_fill_gradient(low = "lightgray", high = "firebrick") +
+  scale_x_continuous(breaks = seq(0, 100, 10)) +
+  labs(title = "Proportion of Arrests per Crime by Age in D.C. (2019 - 2023)", 
+       x = "Age", 
+       y = "",
+       fill = "Proportion") +
+  theme_minimal()
+
+```
