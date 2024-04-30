@@ -1,6 +1,7 @@
 ```{r}
 #| message: false
 #| warning: false
+
 library(tidyverse)
 adult_arrests <- arrow::read_parquet("../../data/clean/adult_arrests_dc.parquet")
 juvenile_arrests <- arrow::read_parquet("../../data/clean/juvenile_arrests_dc.parquet")
