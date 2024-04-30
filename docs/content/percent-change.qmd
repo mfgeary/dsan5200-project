@@ -129,7 +129,7 @@ Plot.plot({
   title: "Percent Change in Car Thefts and Related Arrests\nin DC from 2019 to 2023",
   legend: {label: "Type", title: "Type"},
   // change the color of the lines with hex values
-  color: ["#D34B7F", "#493FB3", "#FFBF49"],
+  color: {range: ["#D34B7F", "#493FB3", "#FFBF49"]},
   marks: [
     Plot.ruleY([0]),
     Plot.lineY(df, {x: "Month", y: "perc", stroke: "type", tip: true }),

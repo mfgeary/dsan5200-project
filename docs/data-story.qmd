@@ -85,7 +85,7 @@ Looking at yearly counts of motor vehicle theft in DC, we can see that there has
 
 ## Car Thefts by Block in Washington, DC (2019-2023)
 
-{{< include content/dc-thefts-leaflet.qmd >}}
+{{< include content/spike-map.qmd >}}
 
 ## Car Thefts by Ward in Washington, DC (2019-2023)
 
