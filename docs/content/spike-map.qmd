@@ -56,13 +56,13 @@ ojs_define(grouped_crimes_2 = grouped_crimes_2)
 ```
 
 ```{ojs}
-df2 = transpose(grouped_crimes)
+data_df = transpose(grouped_crimes)
 df3 = transpose(grouped_crimes_2)
 
 dc = FileAttachment("../../data/Wards_from_2012.geojson").json()
 dc_roads = FileAttachment("../../data/major-roads.geojson").json()
 
-crimeData = df2.map(d => {
+crimeData = data_df.map(d => {
     d.report_date = new Date(d.report_date);
     return d;
 });
@@ -75,7 +75,7 @@ df4 = df3.map(d => {
 
 
 // Plot DC map from geojson
-map = Plot.plot({
+marion_map = Plot.plot({
     width: 800,
     height: 800,
     title: "DC Car Thefts by City Block from 2019-2023",
@@ -86,7 +86,7 @@ map = Plot.plot({
         Plot.geo(dc, {fill: "#ddd", stroke: "white", strokeWidth: 1}),
         Plot.geo(dc_roads, {stroke: "black", strokeWidth: 1}),
         Plot.spike(
-            df2,
+            data_df,
             {
                 x: "lon", 
                 y: "lat", 
@@ -96,7 +96,7 @@ map = Plot.plot({
             }
         ),
         Plot.tip(
-            df2,
+            data_df,
             Plot.pointer({
                 x: "lon", 
                 y: "lat",
