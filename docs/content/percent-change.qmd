@@ -3,6 +3,7 @@
 #| warning: false
 
 library(tidyverse)
+library(arrow)
 adult_arrests <- arrow::read_parquet("../../data/clean/adult_arrests_dc.parquet")
 juvenile_arrests <- arrow::read_parquet("../../data/clean/juvenile_arrests_dc.parquet")
 crime_dc <- arrow::read_parquet("../../data/clean/crime_dc.parquet")
@@ -91,23 +92,37 @@ joiner_wide <- joiner |>
     # pivot wider to get difference over time for dot plot
     pivot_wider(names_from = Month, values_from = perc) |>
     mutate(diff = `2023-12-01` - `2019-01-01`)
+
+joiner <- joiner |>
+    filter(year(Month) <= 2023)
+    # make Month YYYY
+    # rename(
+    #     "Number of Car Thefts" = car_theft,
+    #     "Number of Car Related Adult Arrests" = car_arrests,
+    #     "Number of Car Related Juvenile Arrests" = car_arrests_juvenile
+    # )
     
 
 ojs_define(joiner_long = joiner_long)
 ojs_define(joiner_wide = joiner_wide)
 ojs_define(joiner_long_n = joiner_long_n)
+ojs_define(joiner = joiner)
 ```
 
-```{ojs}
+```{ojs, fig.width = 14}
+d3 = require("d3@7")
+
 df = transpose(joiner_long)
     .map((d, i) => ({...d, Month: new Date(d.Month)}))
 
 df2 = transpose(joiner_long_n)
     .map((d, i) => ({...d, Month: new Date(d.Month)}))
 
+joiner_df = transpose(joiner)
+    .map((d, i) => ({...d, Month: new Date(d.Month)}))
+
 // create line chart with the data
 Plot.plot({
-  overflow: "visible",
   y: {grid: true, tickFormat: d => `${d > 0 ? "+" : ""}${Math.round(d)}%`, label: "Percent Change"},
   x: {type: "time", tickFormat: "%b %Y", label: "Month"},
   title_font: {size: 20, family: "Impact"},
@@ -118,6 +133,20 @@ Plot.plot({
   marks: [
     Plot.ruleY([0]),
     Plot.lineY(df, {x: "Month", y: "perc", stroke: "type", tip: true }),
-  ]
+  ],
+  width: 1200,
+  marginLeft: 100
 })
+
+Inputs.table(
+    joiner_df,
+    {columns: ["Month", "car_theft", "car_arrests", "car_arrests_juvenile"], 
+    header: {
+        car_theft: "Car Thefts",
+        car_arrests: "Car Related Adult Arrests",
+        car_arrests_juvenile: "Car Related Juvenile Arrests"
+    },
+    title: "Number of Car Thefts and Related Arrests in DC from 2019 to 2023"
+    }
+)
 ```

@@ -39,7 +39,7 @@ plot = Plot.plot({
   },
   marks: [
     Plot.ruleY([0]),
-    Plot.barY(data, {x: "shift", y: "count", sort: {x: "y", reverse: true}})
+    Plot.barY(data, {x: "shift", y: "count"})
   ],
   title: `Shift Counts for Ward ${selected_ward}`
 })

@@ -67,7 +67,7 @@ rules = alt.Chart(kia_boys).transform_pivot(
 alt.layer(
     line, points, rules
 ).properties(
-    width=700, height=400
+    width=850, height=400
 ).configure_axis(
     grid=False,
     labelFontSize=12,

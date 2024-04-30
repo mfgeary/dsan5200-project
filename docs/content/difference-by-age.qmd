@@ -1,5 +1,4 @@
 ---
-title: "Arrest Demographics"
 output: html_document
 execute:
   echo: false

@@ -1,5 +1,4 @@
 ---
-title: "Arrest Demographics"
 output: html_document
 execute:
   echo: false
@@ -33,7 +32,7 @@ arrests_df <- raw_arrests %>%
   select(-c(arrestee_type, ccn, arrest_number_number, arrest_date))
 ```
 
-```{r}
+```{r, fig.width = 14}
 total_by_age <- arrests_df %>% 
   group_by(age, charge = charge_description) %>% 
   summarise(total = n()) %>% 
@@ -65,7 +64,7 @@ ggplot(total_by_age, aes(x = age, y = factor(charge, levels = order), fill = pro
     axis.line = element_line(colour = "black", linewidth = 0.5),
     # change font family
     title = element_text(family = "Impact", size = 20),
-    axis.title = element_text(family = "Impact", size = 15),
+    axis.title = element_text(family = "Impact", size = 15)
   )
 
 ```

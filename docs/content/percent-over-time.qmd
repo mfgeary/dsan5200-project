@@ -62,7 +62,7 @@ radial = alt.Chart(kia_hyundai_long).mark_arc(innerRadius=50).encode(
 )
 
 # show all points on the same chart
-alt.vconcat(line, radial).resolve_scale(
+alt.hconcat(line, radial).resolve_scale(
     color="independent"
     # add title
 ).properties(

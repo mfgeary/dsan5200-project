@@ -8,7 +8,7 @@ format:
         embed_resources: true
 ---
 
-```{python}
+```{python, fig.width = 14}
 #| column: page
 import plotly.express as px
 kia_hyundai = pd.read_csv('../../data/clean/kia_hyundai_thefts_data.csv')
@@ -19,7 +19,7 @@ fig = px.density_mapbox(kia_hyundai, lat='lat', lon='long', z='percent_kia_hyund
                         radius=10, animation_frame='year_month',
                         center=dict(lat=38.0902, lon=-97), zoom=3,
                         mapbox_style="carto-positron",
-                        width=1000, height=800,
+                        width=1200, height=800,
                         range_color=(0, 100),
                         labels={'percent_kia_hyundai': 'Percentage of Kia/Hyundai Thefts'},
                         title = 'Percentage of Kia-Hyundai Thefts in the US by Month and Year (2020-2023)')
