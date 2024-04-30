@@ -59,15 +59,29 @@ This trend in Hyundais and Kias being stolen is not quite new, however. Accordin
 
 With this problem of Hyundai and Kia thefts, we became curious as to how not only how this epidemic is impacting our own home in Washington DC, but also if we can visualize DC car theft data to identify any notable patterns, trends, or insights as to how car theft typically manifests itself in our city. To accomplish this goal, we take a look at car thefts as a whole in the United States, Hyundai and Kia thefts in DC and also various cities throughout the United States, and crime report data from the DC Metro. It is through exploring all these various avenues that we can see how DC stacks up against other cities/the country as a whole with car thefts and answer important questions like where in DC are the most cars getting stolen, who is stealing cars, and most importantly, why?
 
-# Who is Committing These Crimes
-
-{{< include content/arrests-by-age.qmd >}}
-
-{{< include content/difference-by-age.qmd >}}
-
-# Where Are These Crimes Happening
+# Where Are These Crimes Being Committed
 
 {{< include content/kia_hyundai_pct_national.qmd >}}
+
+Looking at Hyundai and Kia theft in the US on a broader scale, we can visualize the epidemic of these vehicles being stolen in the above figure. Over time, from 2020 to 2023, it is very clear that the proportion of vehicles stolen in major cities throughout the US have become increasingly Kia or Hyundai. This visualization shows us how DC is one of the major hubs for Kias and Hyundai thefts in the US.
+
+Seeing how DC stacked up nationally to other cities in the US with respect to car thefts, we wanted to take a closer look at not just car theft data in DC, but also all reported crime and arrests in the city. It is through such an exploration that we can begin to paint the picture for how the criminal landscape in DC operates.
+
+In the below figure, the proportion of types of crimes and where they were committed in DC can be visualized.
+
+::: {layout="[80,30]"}
+
+{{< include content/sankey.qmd >}}
+
+![](../../data/DC_Ward_Map_2020s.png)
+
+:::
+
+We can first observe how theft that was NOT from vehicles made up most of the crime in Washington DC from 2019 through 2023. Theft is then followed by theft from vehicles, and then third by motor vehicle thefts (the act of physically stealing a vehicle). For the most part, crime in DC is interspersed evenly throughout the district’s wards, but we can see that Wards 2, 5, and 1 are where most crimes in happen in the city. While certain wards do not seem inherently more dangerous than others (relatively speaking), can we see if motor vehicle thefts happen more often in particular wards? In order to answer this question, let us first take a look at motor vehicle theft trends as a whole in the city.
+
+{{< include content/data-viz-Matt.qmd >}}
+
+Looking at yearly counts of motor vehicle theft in DC, we can see that there has been a VERY clear rise in car thefts overall, not just in Hyundai and Kia thefts. Clearly there is problem in DC. From 2022 to 2023, there was an almost 82% increase in car thefts which is staggeringly high. In the below figures, we can see how many of these thefts are happening in DC’s 7th and 8th wards, the southeast of the city. Historically, this area of the city has long been one of the most economically disadvantaged areas in the city (Paul 2013), with 16th Street NW being a “dividing line” for poverty within the city.
 
 ## Car Thefts by Block in Washington, DC (2019-2023)
 
@@ -80,14 +94,29 @@ With this problem of Hyundai and Kia thefts, we became curious as to how not onl
 <!-- <iframe width="100%" height="800" frameborder="0"
   src="https://observablehq.com/embed/0de5730c9a255a03?cell=*"></iframe> -->
 
+# Who is Committing These Crimes
+
+We have seen where car thefts in DC are taking place, but now we want to look more at WHO is stealing cars in DC by taking a look at arrest data from 2019 to 2023. Before looking at car theft arrest data specifically, we first took a look at arrest data for ALL arrests that took place in this time period. In the below figure, we can see that, on the whole, younger adults are way more inclined to be arrested than older adults. When looking at arrests for Unauthorized Use of a Vehicle (i.e., “joyriding”) and Theft First Degree (Stolen Auto), we can see that the proportion of those that were arrested that are younger is much higher than that of crimes like Unlawful Entry and Simple Assault. Motor vehicle theft is a younger man’s crime. 
+
+{{< include content/arrests-by-age.qmd >}}
+
+What about juveniles, though? Given the “Kia Boys” trend on Tik Tok, can we expect more juveniles to be committing crimes than adults? In the figure below, we explore the proportion of adults that are arrested for different categories of crimes compared to juveniles. We can see that Unauthorized Use of a Vehicle is a crime that is committed by more juveniles than adults. While we cannot directly link social media like Tik Tok specifically to why those arrested for car thefts are younger, we do have some evidence to show that car theft is a crime that is popular among juveniles. It is certainly not far fetched to think that social media has increased the availability of knowledge on how to steal cars, like we have seen with the Kia Boys, which primarily is going to seen by juveniles.
+
+{{< include content/difference-by-age.qmd >}}
+
+
 # When Are These Crimes Happening
 
 ## Total DC Car Theft Activity by Hour of the Day for Each Year (2019-2023)
 What times of the day are car thefts more likely to happen? Based on the data presented in the graph, it's evident that there are distinct patterns in the timing of car thefts in Washington DC. The peak of thefts show to be happening between the hours of 12am-3am and 4pm-7pm. The reduced visibility and darkness, as well as less overall people activity during the early morning hours of 12am-3am provide favorable conditions for thieves to operate discreetly. Similarly, the spike in car thefts during the early evening hours, particularly between 4pm-7pm, can be correlated with factors such as the onset of darkness, increased vehicular traffic, and potential distractions as individuals return home from work or engage in other activities.
 
-
 {{< include content/car_theft_hour.qmd >}}
+
+Seeing where and when car theft in DC is taking place, along with who is primarily participating in car theft, we still are left with some questions on why car theft is going up. We do know that flaws in Kia and Hyundai manufacturing have made car theft more accessible to people, along with increased saliency on social media, but does this really explain at all? We were curious as to what else was driving car thefts up in DC, and upon initial research, while many experts attribute the increase heavily towards the Kia and Hyundai problem, a lot of it can be attributed to the DC Police struggling to arrest suspects for all motor vehicle theft cases they see (Ianelli 2024). In the below figure, we can notice that arrest counts for all crimes in DC have remained relatively the same while car thefts have continued to rise. DC police have not been able to keep up with all of the car thefts that have been happening in more recent years. This phenomenon perpetuates a feedback loop where car thefts realize the consequences of their crimes are not as likely to be met with swift justice, only encouraging further car theft. DC police have realized these circumstances and now have begun to incorporate more tactics in catching car thefts, but only time and new data will tell if these techniques are working (Khalil 2023).
+
 
 # Why Are These Crimes Happening
 
 {{< include content/percent-change.qmd >}}
+
+In conclusion, the Kia and Hyundai theft epidemic has been a major factor in car theft rises in Washington DC. We explore how car thefts in DC are mostly taking place in historically economically disadvantaged communities and are primarily being committed by younger adults and juveniles. Arrest rates have also struggled to catch up with rising car theft rates, requiring DC police to adapt their strategies in catching car thieves. While it is hard to directly quantify how social media trends have impacted car theft rates, we do have pretty strong evidence to say social media has played a large role in providing access to car theft techniques, which can be observed through the skyrocketing proportion of stolen cars that are Hyundais or Kias in both DC and the country as whole. With recent class action lawsuits and calls by law enforcement officials and politicians for Kia and Hyundai to be held responsible for upticks in car thefts, we were directly able to observe this unique phenomenon in our community.

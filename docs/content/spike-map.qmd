@@ -1,0 +1,137 @@
+---
+title: "Untitled"
+format:
+    html:
+        embed-resources: true
+---
+
+```{r}
+library(readr)
+library(dplyr)
+library(lubridate)
+thefts <- read_csv("../../data/clean/kia_hyundai_thefts_data.csv")
+
+# Summarize by month and year
+thefts <- thefts |>
+    mutate(year = year(date)) |>
+    mutate(month = month(date)) |>
+    group_by(year, month) |>
+    summarize(thefts = sum(count_kia_hyundai)) |>
+    mutate(date = make_date(year, month, 1))
+
+ojs_define(thefts = thefts)
+
+crimes <- read_csv("../../data/clean/crime_dc.csv")
+
+crimes <- crimes |>
+    arrange(report_date) |>
+    mutate(month_year = paste0(month(report_date), "/01/", year(report_date))) |>
+    mutate(report_date = paste0((month(report_date)), "/", day(report_date), "/", year(report_date)))
+
+ojs_define(crimes = crimes)
+
+grouped_crimes <- crimes |>
+    group_by(report_date, block) |>
+    reframe(crimes = n(), lat = mean(latitude), lon = mean(longitude)) |>
+    # make crimes cumulative for each block
+    ungroup() |>
+    mutate(report_date = as.Date(report_date, format = "%m/%d/%Y")) |>
+    mutate(month_year = paste0(month(report_date), "/01/", year(report_date))) |>
+    arrange(report_date) |>
+    group_by(block) |>
+    mutate(crimes = cumsum(crimes)) |>
+    arrange(block, report_date) |>
+    ungroup()
+
+grouped_crimes_2 <- crimes |>
+    mutate(report_date = as.Date(report_date, format = "%m/%d/%Y")) |>
+    mutate(month_year = paste0(month(report_date), "/01/", year(report_date))) |>
+    mutate(month_year = mdy(month_year)) |>
+    filter(year(report_date) < 2024) |>
+    group_by(month_year) |>
+    reframe(crimes = n())
+
+ojs_define(grouped_crimes = grouped_crimes)
+ojs_define(grouped_crimes_2 = grouped_crimes_2)
+```
+
+```{ojs}
+df2 = transpose(grouped_crimes)
+df3 = transpose(grouped_crimes_2)
+
+dc = FileAttachment("../../data/Wards_from_2012.geojson").json()
+dc_roads = FileAttachment("../../data/major-roads.geojson").json()
+
+crimeData = df2.map(d => {
+    d.report_date = new Date(d.report_date);
+    return d;
+});
+
+// convert df3 month_year to date
+df4 = df3.map(d => {
+    d.month_year = new Date(d.month_year);
+    return d;
+});
+
+
+// Plot DC map from geojson
+map = Plot.plot({
+    width: 800,
+    height: 800,
+    title: "DC Car Thefts by City Block from 2019-2023",
+    x: {axis: null},
+    y: {axis: null},
+    length: {range: [0, 100]},
+    marks: [
+        Plot.geo(dc, {fill: "#ddd", stroke: "white", strokeWidth: 1}),
+        Plot.geo(dc_roads, {stroke: "black", strokeWidth: 1}),
+        Plot.spike(
+            df2,
+            {
+                x: "lon", 
+                y: "lat", 
+                length: "crimes", 
+                channels: {block: "block"},
+                stroke: "#493FB3",
+            }
+        ),
+        Plot.tip(
+            df2,
+            Plot.pointer({
+                x: "lon", 
+                y: "lat",
+                channels: {block: "block", crimes: "crimes"},
+                offset: 10,
+                title: (d) => `${d.block}\n\nCar Thefts: ${d.crimes}`
+            }
+        )),
+        legendSpike([25, 50, 75, 100], {stroke: "#493FB3"})
+    ]
+})
+
+function legendSpike(values, {frameAnchor = "bottom-right", format = "~s", stroke} = {}) {
+  if (!Array.isArray(values)) values = Array.from(values);
+  if (typeof format !== "function") format = d3.format(format);
+  return Plot.marks(
+    values.map((v, i) => {
+      const dx = (i - values.length) * 18;
+      return [
+        Plot.spike([v], {
+          length: [v],
+          dx,
+          dy: -20,
+          frameAnchor,
+          stroke
+        }),
+        Plot.text([v], {
+          text: [format(v)],
+          dx,
+          dy: -10,
+          frameAnchor,
+          textAnchor: "middle"
+        })
+      ];
+    })
+  );
+}
+```
