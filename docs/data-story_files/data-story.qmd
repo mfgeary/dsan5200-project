@@ -15,6 +15,8 @@ format:
     html:
         embed_resources: true
         toc: true
+theme: morph
+bibliography: ../../references.bib
 
 # output: html_document
 # format: 
@@ -27,7 +29,6 @@ format:
 # theme: lux
 # execute: 
 #   echo: false
-# bibliography: ../../references.bib
 # vega:
 #   renderer:
 #     css: |
@@ -47,7 +48,8 @@ reticulate::use_condaenv("dsan5200", required = TRUE)
 ```
 
 ```{r}
-color_palette <- c("#A8C4FF", "#A56A6E", "#89B587", "#6A7FAB", "#FFDAA1", "#EFA4D6", "#7C5FBC", "#F2B37A")
+color_palette <- c('#493FB3', '#D34B7F', '#FFBF49', '#8edce6', '#C894FF','#0B5351', '#4C230A')
+#color_palette <- c("#A8C4FF", "#A56A6E", "#89B587", "#6A7FAB", "#FFDAA1", "#EFA4D6", "#7C5FBC", "#F2B37A")
 ```
 
 # Introduction
@@ -55,6 +57,8 @@ color_palette <- c("#A8C4FF", "#A56A6E", "#89B587", "#6A7FAB", "#FFDAA1", "#EFA4
 Starting in 2022, a breakout social media trend started the rise of a troubling trend: teenagers stealing cars for fun. The trend, started by the alleged "Kia Boys," spread on the social media platform TikTok, where teenage boys posted videos of themselves stealing cars to take them on joyrides [@nyt-2023]. Often, these videos included step-by-step instructions on how to steal a car, and many of the cars stolen were Kia and Hyundai models. Videos show an easy trick that that involves just a screw driver and a USB cord to start the car in less than a minute due to a software error [@nyt-opinion]. In @fig-google-trends, we see a significant increase in Google searches for "Kia Boys", "Hyundai Theft", and "Kia Theft" starting in 2022 and continuing through today (2024).
 
 {{< include content/google-search-trends.qmd >}}
+
+{{< include content/percent-over-time.qmd >}}
 
 # Who is Committing These Crimes
 
@@ -74,8 +78,10 @@ Starting in 2022, a breakout social media trend started the rise of a troubling 
 
 ## Car Thefts by Ward in Washington, DC (2019-2023)
 
-<iframe width="100%" height="1000" frameborder="0"
-  src="https://observablehq.com/embed/0de5730c9a255a03?cell=*"></iframe>
+{{< include content/observable_plot.qmd >}}
+
+<!-- <iframe width="100%" height="800" frameborder="0"
+  src="https://observablehq.com/embed/0de5730c9a255a03?cell=*"></iframe> -->
 
 # When Are These Crimes Happening
 

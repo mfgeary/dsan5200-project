@@ -1,9 +1,12 @@
 ```{python}
+#| column: page
+
 import pandas as pd
 import plotly.express as px
+
+color_palette = ['#00c0a7', '#44546a', '#ff6c00', '#FF818E', '#FFD072']
+
 car_theft_data = pd.read_csv('../../data/clean/crime_dc.csv')
-
-
 
 # Convert 'report_date' to datetime format
 car_theft_data['report_date'] = pd.to_datetime(car_theft_data['report_date'], format='%Y-%m-%dT%H:%M:%SZ')
@@ -33,9 +36,16 @@ yearly_hourly_theft_counts = yearly_hourly_theft_counts.sort_values(by=['year', 
 
 # Plot the data
 fig = px.line(yearly_hourly_theft_counts, x='hour_of_day', y='Number of Car Thefts', color='year',
+              title='Total DC Car Theft Activity by Hour of the Day for Each Year (2019-2023)',
               labels={'hour_of_day': 'Hour of the Day', 'Number of Car Thefts': 'Number of Car Thefts', 'year': 'Year'},
-              color_discrete_sequence=r.color_palette)
+              color_discrete_sequence=color_palette)
 
 # Adjust layout to slant x-label ticks
-fig.update_layout(xaxis_tickangle=45)
+fig.update_layout(
+    xaxis_tickangle=45,
+    title_font=dict(family="Impact", size=24),  
+    xaxis=dict(title_font=dict(family="Impact")),  
+    yaxis=dict(title_font=dict(family="Impact"))   
+)
+
 ```
