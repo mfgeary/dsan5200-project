@@ -20,6 +20,7 @@ theme:
   - lux
   - theme.scss
 bibliography: ../../references.bib
+toc: true
 #     grid:
 #         body-width: 1100pxg
 # engine: knitr
@@ -46,7 +47,7 @@ color_palette <- c('#493FB3', '#D34B7F', '#FFBF49', '#8edce6', '#C894FF','#0B535
 
 # Introduction
 
-::: {.column-screen style="background-image:url(https://vastphotos.com/files/uploads/photos/11330/washington-dc-mall-sunrise-l.jpg?v=20221018121735); background-size: cover; height: 50vh; position: sticky; top: 0; "}
+::: {.column-screen style="background-image:url(https://vastphotos.com/files/uploads/photos/11330/washington-dc-mall-sunrise-l.jpg?v=20221018121735); background-size: cover; height: 35vh; position: sticky; top: 0; "}
 :::
 
 Starting in 2022, a breakout social media trend started the rise of a troubling trend: teenagers stealing cars for fun. The trend, started by the alleged "Kia Boys," spread on the social media platform TikTok, where teenage boys posted videos of themselves stealing cars to take them on joyrides [@nyt-2023]. Often, these videos included step-by-step instructions on how to steal a car, and many of the cars stolen were Kia and Hyundai models. Videos show an easy trick that that involves just a screw driver and a USB cord to start the car in less than a minute due to a software error [@nyt-opinion]. In @fig-google-trends, we see a significant increase in Google searches for "Kia Boys", "Hyundai Theft", and "Kia Theft" starting in 2022 and continuing through today (2024).

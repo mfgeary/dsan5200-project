@@ -22,7 +22,7 @@ fig = px.density_mapbox(kia_hyundai, lat='lat', lon='long', z='percent_kia_hyund
                         width=1200, height=800,
                         range_color=(0, 100),
                         labels={'percent_kia_hyundai': 'Percentage of Kia/Hyundai Thefts'},
-                        title = 'Percentage of Kia-Hyundai Thefts in the US by Month and Year (2020-2023)')
+                        title = 'Percentage of Kia-Hyundai Thefts in the US by Month and Year (2019-2023)')
 
 # Customize the appearance of the slider to show each month and year in text
 fig.update_layout(

@@ -1,11 +1,6 @@
----
-title: "Untitled"
-format:
-    html:
-        embed-resources: true
----
-
 ```{r}
+#| message: false
+#| warning: false
 library(readr)
 library(dplyr)
 library(lubridate)

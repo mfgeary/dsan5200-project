@@ -95,7 +95,7 @@ fig = go.Figure(data=[go.Sankey(
 
 
 fig.update_layout(
-    title_text="Proportion of Types of Crime in Washington, D.C. by Ward (2019 - 2023)",
+    title_text="Proportion of Crime Type in Washington, D.C. by Ward (2019 - 2023)",
     title_font=dict(family="Impact",  size=24),
     font_size=10
 )
