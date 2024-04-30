@@ -75,7 +75,7 @@ p1 <- ggplot(total_by_crime, aes(x = reorder(charge, -difference),
        title = "Difference in Proportion of Arrests by Charge",
        subtitle = "(Adult - Juvenile)",
        color = "Group") +
-  scale_fill_manual(values = c("firebrick", "grey")) +
+  scale_fill_manual(values = c("#D34B7F", "grey")) +
   theme_minimal() +
   theme(legend.position = "none",
         axis.text.x = element_blank(),
@@ -83,6 +83,7 @@ p1 <- ggplot(total_by_crime, aes(x = reorder(charge, -difference),
   annotate("text", 
            x = 60, y = -.075, 
            label = "Unauthorized Use Of A Vehicle", 
+           family = "Impact",
            size = 4, 
            color = "firebrick",
            angle = 0) +
@@ -91,13 +92,20 @@ p1 <- ggplot(total_by_crime, aes(x = reorder(charge, -difference),
            label = "More Adults", 
            size = 4, 
            color = "black",
+           family = "Impact",
            angle = 0) +
   annotate("text", 
            x = 7, y = -0.14, 
            label = "More Juveniles", 
            size = 4, 
            color = "black",
-           angle = 0)
+          family = "Impact",
+           angle = 0) +
+           theme(
+          axis.line = element_line(colour = "black", linewidth = 0.5),
+          title = element_text(family = "Impact", size = 20),
+          axis.title = element_text(family = "Impact", size = 15),
+        )
 
 tooltip_text <- paste("reorder(charge, -difference): ", total_by_crime$charge, "<br>",
                  "difference: ", total_by_crime$difference, "<br>")

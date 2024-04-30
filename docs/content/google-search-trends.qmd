@@ -14,9 +14,9 @@ kia_boys["trend"] = kia_boys["trend"].apply(lambda x: x.title())
 
 # Map colors to the trends
 colors = {
-    "Kia Boys": "#A8C4FF",
-    "Hyundai Theft": "#A56A6E",
-    "Kia Theft": "#89B587"
+    "Kia Boys": "#493FB3",
+    "Hyundai Theft": "#D34B7F",
+    "Kia Theft": "#FFBF49"
 }
 
 kia_boys["color"] = kia_boys["trend"].map(colors)
@@ -72,24 +72,24 @@ alt.layer(
     grid=False,
     labelFontSize=12,
     titleFontSize=15,
-    labelFont="Nunito Sans",
-    titleFont="Nunito Sans",
+    labelFont="Nunito",
+    titleFont="Impact",
 ).configure_view(
     strokeWidth=0 
 ).configure_legend(
     titleFontSize=15,
     labelFontSize=12,
-    labelFont="Nunito Sans",
-    titleFont="Nunito Sans",
+    labelFont="Nunito",
+    titleFont="Impact",
 ).configure_line(
     strokeWidth=1.5,
 ).configure_point(
     size=50
 ).configure_title(
-    font='Nunito Sans',
+    font='Impact',
     fontSize=22,
     subtitleFontSize=15,
-    subtitleFont='Nunito Sans',
+    subtitleFont='Nunito',
     subtitleColor='#666666'
 )
 ```

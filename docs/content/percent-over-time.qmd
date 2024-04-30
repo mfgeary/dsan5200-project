@@ -49,11 +49,11 @@ line = alt.Chart(kia_hyundai_long).mark_line(point=True).encode(
     y=alt.Y("count_kia_hyundai:Q", title="Number of Kia and Hyundai Thefts"),
     color=alt.value("#493FB3"),
     tooltip=[alt.Tooltip("date:T", title="Date", format = "%B %Y"), alt.Tooltip("count_kia_hyundai:Q", title = "Number of Kia and Hyundai Thefts", format = ",")],
-).properties(width=500, height=300).add_params(brush)
+).properties(width=400, height=300).add_params(brush)
 
 radial = alt.Chart(kia_hyundai_long).mark_arc(innerRadius=50).encode(
     theta="mean(percent):Q",
-    color=alt.Color("type:N", scale=alt.Scale(range=["#493FB3", "#FF8C00"]), title = "Car Make"),
+    color=alt.Color("type:N", scale=alt.Scale(range=["#493FB3", "#D34B7F"]), title = "Car Make"),
     tooltip = [alt.Tooltip("mean(percent):Q", title = "Average Percent", format = ".1%"), alt.Tooltip("type:N", title = "Type")],
 ).transform_filter(
     brush
@@ -61,27 +61,34 @@ radial = alt.Chart(kia_hyundai_long).mark_arc(innerRadius=50).encode(
     width=300, height=300
 )
 
-
-
-
 # show all points on the same chart
-alt.hconcat(line, radial).resolve_scale(
+alt.vconcat(line, radial).resolve_scale(
     color="independent"
     # add title
 ).properties(
-    title="Kia and Hyundai Thefts as a Percentage of Car Thefts\nin U.S. Cities from 2019 to 2023",
+    title=["Kia and Hyundai Thefts as a Percentage of Car Thefts", "in U.S. Cities from 2019 to 2023"],
 ).configure_axis(
+    grid=False,
     labelFontSize=12,
-    titleFontSize=12,
-).configure_legend(
-    labelFontSize=12,
-    titleFontSize=12,
-).configure_title(
-    fontSize=16,
-    anchor="middle",
+    titleFontSize=15,
+    labelFont="Nunito",
+    titleFont="Impact",
 ).configure_view(
-    strokeWidth=0,
-).configure_concat(
-    spacing=20,
+    strokeWidth=0 
+).configure_legend(
+    titleFontSize=15,
+    labelFontSize=12,
+    labelFont="Nunito",
+    titleFont="Impact",
+).configure_line(
+    strokeWidth=1.5,
+).configure_point(
+    size=50
+).configure_title(
+    font='Impact',
+    fontSize=22,
+    subtitleFontSize=15,
+    subtitleFont='Nunito',
+    subtitleColor='#666666'
 )
 ```

@@ -1,5 +1,5 @@
 ---
-title: "Final Data Story"
+title: "Car Thefts in Washington DC"
 author: 
     - Marion Bauman
     - Matt Carswell
@@ -13,33 +13,26 @@ execute:
 engine: knitr
 format:
     html:
-        embed_resources: true
-        toc: true
-theme: morph
+        embed-resources: true
+grid:
+    body-width: 1100px
+theme: 
+  - lux
+  - theme.scss
 bibliography: ../../references.bib
-
-# output: html_document
-# format: 
-#   html:
-#     code-tools: true
-#     embed-resources: true
 #     grid:
-#         body-width: 1100px
+#         body-width: 1100pxg
 # engine: knitr
 # theme: lux
 # execute: 
 #   echo: false
-# vega:
-#   renderer:
-#     css: |
-#       @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;500;600;700&display=swap");
-#       @font-face {
-#         font-family: 'Nunito Sans';
-#       }
-
-#       .vega-embed .marks text {
-#         font-family: 'Nunito Sans', sans-serif;
-#       }
+vega:
+  renderer:
+    css: |
+      @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+      .vega-embed .marks text {
+        font-family: 'Nunito', sans-serif;
+      }
 ---
 
 ```{r}
@@ -49,16 +42,35 @@ reticulate::use_condaenv("dsan5200", required = TRUE)
 
 ```{r}
 color_palette <- c('#493FB3', '#D34B7F', '#FFBF49', '#8edce6', '#C894FF','#0B5351', '#4C230A')
-#color_palette <- c("#A8C4FF", "#A56A6E", "#89B587", "#6A7FAB", "#FFDAA1", "#EFA4D6", "#7C5FBC", "#F2B37A")
 ```
 
 # Introduction
+
+::: {.column-screen style="background-image:url(https://vastphotos.com/files/uploads/photos/11330/washington-dc-mall-sunrise-l.jpg?v=20221018121735); background-size: cover; height: 60vh; position: sticky; top: 0; "}
+:::
 
 Starting in 2022, a breakout social media trend started the rise of a troubling trend: teenagers stealing cars for fun. The trend, started by the alleged "Kia Boys," spread on the social media platform TikTok, where teenage boys posted videos of themselves stealing cars to take them on joyrides [@nyt-2023]. Often, these videos included step-by-step instructions on how to steal a car, and many of the cars stolen were Kia and Hyundai models. Videos show an easy trick that that involves just a screw driver and a USB cord to start the car in less than a minute due to a software error [@nyt-opinion]. In @fig-google-trends, we see a significant increase in Google searches for "Kia Boys", "Hyundai Theft", and "Kia Theft" starting in 2022 and continuing through today (2024).
 
 {{< include content/google-search-trends.qmd >}}
 
+::::: {.columns}
+
+::: {.column width = "50%" style="padding:20px; position:sticky;top:100px;"}
+
 {{< include content/percent-over-time.qmd >}}
+
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="40%"}
+This trend in Hyundais and Kias being stolen is not quite new, however. According to the Highway Loss Data Institute, theft insurance claims for certain models of Hyundais and Kias have increased more than 1000% between the first half of 2020 and first half of 2023. During the initial six months of 2020, approximately 1.0 per 1,000 insured Hyundai and Kia vehicles were reported stolen, a rate similar to that of other car brands. However, by the first half of 2023, this rate surged to 11.2 per 1,000 for Hyundai and Kia vehicles, while the theft rate for other car brands remained the same.The “epidemic” of  thefts of these brands has gotten so bad that Hyundai recently reached settled a class action lawsuit for $145 million, with any one who purchased a Hyundai between 2011 and 2022 being eligible to be compensated.
+
+With this problem of Hyundai and Kia thefts, we became curious as to how not only how this epidemic is impacting our own home in Washington DC, but also if we can visualize DC car theft data to identify any notable patterns, trends, or insights as to how car theft typically manifests itself in our city. To accomplish this goal, we take a look at car thefts as a whole in the United States, Hyundai and Kia thefts in DC and also various cities throughout the United States, and crime report data from the DC Metro. It is through exploring all these various avenues that we can see how DC stacks up against other cities/the country as a whole with car thefts and answer important questions like where in DC are the most cars getting stolen, who is stealing cars, and most importantly, why?
+:::
+
+::::
 
 # Who is Committing These Crimes
 
@@ -86,6 +98,8 @@ Starting in 2022, a breakout social media trend started the rise of a troubling 
 # When Are These Crimes Happening
 
 ## Total DC Car Theft Activity by Hour of the Day for Each Year (2019-2023)
+What times of the day are car thefts more likely to happen? Based on the data presented in the graph, it's evident that there are distinct patterns in the timing of car thefts in Washington DC. The peak of thefts show to be happening between the hours of 12am-3am and 4pm-7pm. The reduced visibility and darkness, as well as less overall people activity during the early morning hours of 12am-3am provide favorable conditions for thieves to operate discreetly. Similarly, the spike in car thefts during the early evening hours, particularly between 4pm-7pm, can be correlated with factors such as the onset of darkness, increased vehicular traffic, and potential distractions as individuals return home from work or engage in other activities.
+
 
 {{< include content/car_theft_hour.qmd >}}
 

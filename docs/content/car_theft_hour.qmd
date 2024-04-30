@@ -4,7 +4,7 @@
 import pandas as pd
 import plotly.express as px
 
-color_palette = ['#00c0a7', '#44546a', '#ff6c00', '#FF818E', '#FFD072']
+color_palette = ['#493FB3', '#D34B7F', '#FFBF49', '#8edce6', '#C894FF']
 
 car_theft_data = pd.read_csv('../../data/clean/crime_dc.csv')
 
