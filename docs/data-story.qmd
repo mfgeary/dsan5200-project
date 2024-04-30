@@ -89,4 +89,4 @@ Starting in 2022, a breakout social media trend started the rise of a troubling 
 
 # Why Are These Crimes Happening
 
-<!-- {{< include content/percent-change.qmd >}} -->
+{{< include content/percent-change.qmd >}}
